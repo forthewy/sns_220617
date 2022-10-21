@@ -8,6 +8,43 @@
 		FROM
 			`user`
 		WHERE
-			`logInId` = #{loginId}
+			`loginId` = #{loginId}
+	</select>
+	<insert id="insertUser" parameterType="map">
+		INSERT INTO
+			`user`
+		(
+			`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{loginId}
+			,#{password}
+			,#{name}
+			,#{email}
+			,NOW()
+			,NOW()
+		)
+	</insert>
+	<select id="getUserByLoginIdAndPassword" parameterType="map" resultType="com.sns.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+			AND
+			`password`= #{password}
 	</select>
 </mapper>

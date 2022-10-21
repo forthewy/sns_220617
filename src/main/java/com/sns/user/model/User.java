@@ -4,25 +4,24 @@ import java.util.Date;
 
 public class User {
 	private int id;
-	private String logInId;
+	private String loginId;
 	private String password;
 	private String name;
 	private String email;
 	private String profileImgPath;
 	private Date createdAt;
 	private Date updatedAt;
-	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getLogInId() {
-		return logInId;
+	public String getLoginId() {
+		return loginId;
 	}
-	public void setLogInId(String logInId) {
-		this.logInId = logInId;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 	public String getPassword() {
 		return password;

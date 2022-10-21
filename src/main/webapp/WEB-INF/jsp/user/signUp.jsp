@@ -48,7 +48,7 @@
            
         </div>
         <script>
-        	$(document).ready(function() {
+        	$(document).ready(function(e) {
         		$('#isDuplicateBtn').on('click', function(e) {
         			e.preventDefault();
         			let loginId = $('#loginId').val().trim();
@@ -119,7 +119,17 @@
         			
         			let url = $(this).attr('action');
         			let params = $(this).serialize(); // name 속성에 있는 값들을 파라미터로 구성
-        			console.log(params);
+        			
+        			//console.log(params);
+        			
+        			$.post(url, params)
+        			.done(function(data) {
+        				if (data.result == success) {
+        					alert("가입완료");
+        				} else {
+        					alert("가입에 실패했습니다");
+        				} 
+        			});
         		});
         	});
         </script>
