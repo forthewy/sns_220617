@@ -1,0 +1,19 @@
+@charset "UTF-8";
+header {
+	height: 100px;
+}
+.header-box {
+	height: 100px;
+}
+section {
+	min-height: 500px;
+}
+.signin-box {
+	height:500px;
+}
+.signUpBox {
+	box-shadow: 10px 5px 5px rgb(201, 200, 200);
+}
+footer {
+	height: 100px;
+}
