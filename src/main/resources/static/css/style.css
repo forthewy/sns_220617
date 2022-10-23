@@ -2,6 +2,21 @@
 header {
 	height: 100px;
 }
+a {
+	color:black;
+	text-decoration: none;
+	font-weight: bold;
+}
+a:hover {
+	color:black;
+	text-decoration: none;
+}
+.profileImg {
+	height: 70px;
+	width: 70px;
+	border-radius: 70%;
+	overflow:hidden;
+}
 .header-box {
 	height: 100px;
 }
@@ -13,6 +28,40 @@ section {
 }
 .signUpBox {
 	box-shadow: 10px 5px 5px rgb(201, 200, 200);
+}
+.post-box {
+	width: 100%;
+}
+#postContent {
+	border: none;
+	width: 100%;
+	min-height: 150px;
+}
+.post-card {
+	border-radius: 10px;
+}
+.post-header {
+	height: 70px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+.comment-input {
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+.porfile-box {
+	width: 757px;
+	height: 150px;
+}
+#homeProfileImg{
+	height: 120px;
+	width: 120px;
+	border-radius: 70%;
+	overflow:hidden;
+}
+#homePosts{
+	min-height: 500px;
+	
 }
 footer {
 	height: 100px;

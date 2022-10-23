@@ -38,6 +38,7 @@
 			,`password`
 			,`name`
 			,`email`
+			,`profileImgPath`
 			,`createdAt`
 			,`updatedAt`
 		FROM
@@ -46,5 +47,20 @@
 			`loginId` = #{loginId}
 			AND
 			`password`= #{password}
+	</select>
+	<select id="selectUserByLoginId" parameterType="string" resultType="com.sns.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`profileImgPath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
 	</select>
 </mapper>

@@ -19,13 +19,13 @@
 </head>
 <body>
 	<div id="wrap">
-		<header class="bg-warning">
+		<header class="bg-info">
 			<jsp:include page="../include/header.jsp"/>
 		</header>
-		<section class="bg-info">
+		<section class="bg-light">
 			<jsp:include page="../${viewName}.jsp"/>
 		</section>
-		<footer class="bg-danger text-center">
+		<footer class="bg-info text-center">
 			<jsp:include page="../include/footer.jsp"/>
 		</footer>
 	</div>

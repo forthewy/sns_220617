@@ -22,6 +22,11 @@ public class UserRestController {
 	@Autowired
 	private UserBO userBO;
 	
+	/**
+	 * 아이디 중복확인
+	 * @param loginId
+	 * @return
+	 */
 	@RequestMapping("/is_duplicated_id")
 	public Map<String, Object> isDuplicate(String loginId) {
 		Map<String, Object> result = new HashMap<>();
@@ -39,6 +44,14 @@ public class UserRestController {
 		return result;
 	}
 	
+	/**
+	 * 회원가입
+	 * @param loginId
+	 * @param password
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	@PostMapping("/sign_up")
 	public Map<String, Object> signUp(
 			@RequestParam("loginId") String loginId,
@@ -58,6 +71,13 @@ public class UserRestController {
 		return result;
 	}
 	
+	/**
+	 * 로그인
+	 * @param loginId
+	 * @param password
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/sign_in")
 	public Map<String, Object> signIn(
 			@RequestParam("loginId") String loginId,
@@ -74,10 +94,11 @@ public class UserRestController {
 		result.put("code", 300);
 		result.put("result", "success");
 		
-		
+		session.setAttribute("profileImg", user.getProfileImgPath());
 		session.setAttribute("userName", user.getName());
 		session.setAttribute("userLoginId", user.getLoginId());
 		session.setAttribute("userPassword", user.getPassword());
+		session.setAttribute("userId", user.getId());
 	} else {
 		result.put("code", 500);
 		result.put("errorMessage", "아이디 혹은 비밀번호가 틀립니다");
@@ -85,4 +106,6 @@ public class UserRestController {
 	
 	return result;
 	}
+	
+	
 }
