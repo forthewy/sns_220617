@@ -14,4 +14,8 @@ public class FollowBO {
 	public int addFollow(int followerUserId, int followedUserId) {
 		return followDAO.insertFollow(followerUserId, followedUserId);
 	}
+	
+	public int deleteFollow(int followerUserId, int followedUserId) {
+		return followDAO.deleteFollow(followerUserId, followedUserId);
+	}
 }

@@ -18,7 +18,8 @@
 			</div>
 			<div class="pl-5">
 				<c:if test="${homeUser.loginId ne userLoginId}">
-					<button type="button" class="btn btn-secondary mr-2" id="followBtn">팔로우하기</button>
+					<button type="button" class="btn btn-secondary mr-2" id="followBtn">팔로우</button>
+					<button type="button" class="btn btn-light border border-secondary mr-2" id="followedBtn">팔로잉</button>
 					<button class="btn btn-info">메세지 보내기</button>
 				</c:if>
 			</div>
@@ -31,8 +32,8 @@
 <script>
 	$(document).ready(function() {
 		
+		
 		$('#followBtn').on('click', function() {
-			//alert('팔로우 버튼 클릭!');
 			
 			$.ajax({
 				url:"/follow/create"
@@ -47,7 +48,25 @@
 				,error:function(e) {
 					alert(e);
 				}
-			})
-		})
+			});
+		});
+		
+		$('#followedBtn').on('click', function() {
+			
+			$.ajax({
+				url:"/follow/delete"
+				,data:{"followedUserId":"${homeUser.id}"}
+				,success:function(data) {
+					if (data.code == 300) {
+						alert(data.result);
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				,error:function(e) {
+					alert(e);
+				}
+			});
+		});
 	});
 </script>

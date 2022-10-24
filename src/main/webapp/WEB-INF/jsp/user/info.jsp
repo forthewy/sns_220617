@@ -6,21 +6,9 @@
 			<h1>회원 가입</h1>
 			<form method="post" id="signUpForm" action="/user/sign_up">
 				<div class="signUpBox border p-3 bg-light">
-					<div class="form-group">
+					<div>
 						<label for="loginId">ID</label>
-	                    <div class="d-flex">
-	                    	<input type="text" class="form-control mr-3" placeholder="아이디를 입력해주세요" id="loginId" name="loginId">
-	                    	<button type="button" class="btn btn-primary" id="isDuplicateBtn">중복 확인</button>
-	    		      	</div>
-	                	<div class="text-danger d-none" id="idCheckDuplicated">
-							사용중인 아이디입니다.
-	                	</div>
-						<div class="text-danger d-none" id="idCheckLength">
-							아이디를 4글자 이상 입력해주세요
-						</div>
-						<div class="text-success d-none" id="idCheckOk">
-							사용가능한 아이디입니다.
-						</div>
+	                    <div class="bg-light col-5">${userLoginId}</div>
 	            	</div>
 					<div class="form-group">
 						<label>password</label>
@@ -38,8 +26,9 @@
 						<label>이메일</label>
 						<input type="text" class="form-control col-9" id="email" name="email" placeholder="이메일을 입력해주세요">
 					</div>
-					<div class="d-flex justify-content-center mb-3">
-						<button type="submit" id="signUpBtn" class="btn btn-primary">가입하기</button>
+					<div class="d-flex justify-content-between mb-3">
+						<button type="submit" id="userInfoUpdateBtn" class="btn btn-info mr-3">수정 하기</button>
+						<button type="submit" id="signUpBtn" class="btn btn-primary">탈퇴 하기</button>
 					</div>
 				</div>
             </form>

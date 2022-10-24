@@ -18,4 +18,12 @@
  			,NOW()
  		)
  	</insert>
+ 	<delete id="deleteFollow" parameterType="map">
+ 		DELETE FROM
+ 			`follow`
+ 		WHERE
+ 			`userId_follower` = #{followerUserId}
+ 			AND
+ 			`userId_followed` = #{followedUserId}
+ 	</delete>
  </mapper>

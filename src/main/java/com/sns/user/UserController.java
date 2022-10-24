@@ -75,9 +75,9 @@ public class UserController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/user/info_view")
+	@RequestMapping("/info_view")
 	public String updateView(Model model) {
-		model.addAttribute("/user/info");
+		model.addAttribute("viewName", "user/info");
 		return "template/layout";
 	}
 }

@@ -19,6 +19,12 @@ public class FollowRestController {
 	@Autowired
 	private FollowBO followBO;
 	
+	/**
+	 * 팔로우 하기
+	 * @param followedUserId
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/create")
 	public Map<String, Object> createFollow(
 			@RequestParam("followedUserId") int followedUserId,
@@ -35,6 +41,27 @@ public class FollowRestController {
 		} else {
 			result.put("code", 500);
 			result.put("errorMessage", "팔로우에 실패했습니다");
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/delete")
+	public Map<String, Object> deleteFollow(
+			@RequestParam("followedUserId") int followedUserId,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int followUserId = (int) session.getAttribute("userId");
+		int row = followBO.deleteFollow(followUserId, followedUserId);
+		
+		if (row > 0) {
+			result.put("code", 300);
+			result.put("result", "success");
+		} else {
+			result.put("code", 500);
+			result.put("errorMessage", "팔로우 취소에 실패했습니다");
 		}
 		
 		return result;
