@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sns.common.EncryptUtils;
 import com.sns.user.bo.UserBO;
@@ -99,6 +100,7 @@ public class UserRestController {
 		session.setAttribute("userLoginId", user.getLoginId());
 		session.setAttribute("userPassword", user.getPassword());
 		session.setAttribute("userId", user.getId());
+		session.setAttribute("userEmail", user.getEmail());
 	} else {
 		result.put("code", 500);
 		result.put("errorMessage", "아이디 혹은 비밀번호가 틀립니다");
@@ -107,5 +109,16 @@ public class UserRestController {
 	return result;
 	}
 	
-	
+	@PostMapping("/update")
+	public Map<String, Object> update(
+			@RequestParam(value="password", required=false) String password,
+			@RequestParam(value="profileImg", required=false) MultipartFile file,
+			@RequestParam(value="name", required=false) String name,
+			@RequestParam(value="email", required=false) String email,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		return result;
+	}
 }

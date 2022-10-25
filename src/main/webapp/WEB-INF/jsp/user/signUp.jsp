@@ -5,7 +5,7 @@
 		<div class="mb-3 col-4">
 			<h1>회원 가입</h1>
 			<form method="post" id="signUpForm" action="/user/sign_up">
-				<div class="signUpBox border p-3 bg-light">
+				<div class="infoBox border p-3 bg-light">
 					<div class="form-group">
 						<label for="loginId">ID</label>
 	                    <div class="d-flex">
@@ -106,7 +106,7 @@
         				return false;
         			}
         			if (password != passwordConfirm) {
-        				alert("비밀번호가 일치하지 않습니다");
+        				alert("비밀번호가 비밀번호 확인과 일치하지 않습니다");
         				return false;
         			}
         			if (name.length < 1) {

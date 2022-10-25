@@ -53,6 +53,7 @@ public class UserController {
 		session.removeAttribute("userPassword");
 		session.removeAttribute("profileImg");
 		session.removeAttribute("userId");
+		session.removeAttribute("userEmail");
 		
 		return "redirect:/user/sign_in_view";
 	}
@@ -76,8 +77,16 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/info_view")
-	public String updateView(Model model) {
+	public String updateView(HttpSession session, Model model) {
+		
+		String loginId = (String) session.getAttribute("userLoginId");
+		
+		if (loginId == null) {
+			return "redirect:/user/sign_in_view";
+		}
+		
 		model.addAttribute("viewName", "user/info");
+		
 		return "template/layout";
 	}
 }

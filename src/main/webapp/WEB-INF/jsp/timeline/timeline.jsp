@@ -2,11 +2,21 @@
     pageEncoding="UTF-8"%>
 <div class="post-box d-flex justify-content-center pt-5 pb-5">
 	<div class="w-50">
+		<%-- 파일첨부 및 게시 --%>
 		<div class="border bg-white">
 			<textarea id="postContent"></textarea>
-			<div class="bg-white d-flex justify-content-between"> <%-- 파일첨부 및 게시 --%>
-				<img src="/static/img/camera.webp" width="35px">
-				<button type="button" class="btn btn-info">게시</button>
+			<div class="bg-white d-flex justify-content-between"> 
+				<div class="d-flex justify-content-start">
+					<%-- file 태그는 숨겨두고 이미지를 클릭하면 file 태그를 클릭한 것처럼 이벤트를 줄 것이다. --%>
+					<input type="file" id="file" class="d-none" accept=".gif,.jpg,.jpeg,.png">
+					<%-- 이미지에 마우스 올리면 마우스 커서가 링크 커서로 변하도록 a 태그 사용 --%>
+					<a href="#" id="fileUploadBtn"><img src="/static/img/camera.webp" width="35px"></a>
+					
+					<%-- 업로드 된 임시 파일 이름 저장될 곳 --%>
+					<div id="fileName" class="ml-2">
+					</div>
+				</div>
+				<button type="button" class="btn btn-info" id="createPostBtn">게시</button>
 			</div>
 		</div>
 		<div class="post-card mt-3 border">
@@ -48,3 +58,78 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+$(document).ready(function() {
+	// 파일 업로드 이미지 (a) 클릭 => 파일 선택 창이 떠야함
+	$('#fileUploadBtn').on('click', function(e) {
+		e.preventDefault(); // a태그의 기본동작 멈춤 (화면이 위로 올라가는 것 방지)
+		$('#file').click(); // input file 을 클릭하는 것과 같은 효과
+	});
+	
+	// 사용자가 파일 업로드를 했을때, 유효성 확인 및 업로드 된 파일 이름 노출
+	$('#file').on('change', function(e) {
+		/* alert("체인지"); */
+		let fileName = e.target.files[0].name; // ex) more-icon.png
+		//alert(fileName);
+		let ext = fileName.split('.').pop().toLowerCase();
+		
+		// 유효성 확인
+		if (fileName.split('.').length < 2 || 
+				(ext != 'gif'
+						&& ext != 'jpg'
+							&&	ext != 'jpeg'
+								&&	ext != 'png'))  {
+			alert("이미지 파일만 업로드 할 수 있습니다");
+			$(this).val(''); // 파일 태그에 실제 파일 제거
+			$('#fileName').text(''); // 파일 이름 비우기
+			return;
+		}
+		
+		// 상자에 업로드 된 이름 노출
+		$('#fileName').text(fileName);
+	});
+	
+	$('#createPostBtn').on('click', function() {
+		//alert('포스트 게시 버튼 클릭');
+		let file = $('#file').val();
+		let postContent = $('#postContent').val();
+		
+		if (file == "") {
+			alert("사진을 첨부해주세요");
+			return;
+		}
+		if (postContent == "") {
+			alert("내용을 기재해주세요");
+			return;
+		}
+		
+		let formData = new FormData();
+		formData.append('file', $('#file')[0].files[0]);
+		formData.append('content', postContent);
+		
+		$.ajax({
+			type:"POST"
+			, url:"/post/create"
+			, data:formData
+			, enctype: "multipart/form-data"
+			, processData: false
+			, contentType: false
+			, success:function(data) {
+				if (data.code == 300) {
+					alert(data.result);
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(e) {
+				alert(e);
+			}
+		});
+		
+	});
+	
+});
+
+</script>
