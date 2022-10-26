@@ -8,7 +8,7 @@
 			`post`
 		(
 	 		`userId`
-			,`ImgPath`
+			,`imgPath`
 			,`content`
 			,`createdAt`
 			,`updatedAt`
@@ -16,12 +16,21 @@
  		VALUES
  		(
  			#{userId}
- 			,#{ImgPath}
+ 			,#{imgPath}
  			,#{content}
  			,NOW()
  			,NOW()
  		)
  	</insert>
- 
- 
+ 	<select id="selectPostList" resultType="com.sns.post.model.Post">
+ 		SELECT
+ 			`id`
+ 			,`userId`
+			,`imgPath`
+			,`content`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+ 	</select>
  </mapper>

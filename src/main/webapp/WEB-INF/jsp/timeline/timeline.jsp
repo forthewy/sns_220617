@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="post-box d-flex justify-content-center pt-5 pb-5">
 	<div class="w-50">
 		<%-- 파일첨부 및 게시 --%>
@@ -19,43 +20,45 @@
 				<button type="button" class="btn btn-info" id="createPostBtn">게시</button>
 			</div>
 		</div>
-		<div class="post-card mt-3 border">
-			<div class="post-header bg-secondary d-flex justify-content-between">
-				<h4 class="mt-3 ml-3">작성자 닉네임</h4>
-				<img src="/static/img/more-icon.png" alt="modal">
-			</div>
-			<img src="/static/img/whale.jpg" alt="포스트사진" class="w-100" height="500px">
-			<div class="like-bar ml-3">
-				<img src="/static/img/heart-icon-fill.png" width="20px">
-				좋아요
-			</div>
-			<div class="pt-3 pl-3">
-				<b>작성자아이디</b>
-				<span class="pl-3">포스트 영역 컨텐트입니다 작성한 글이 나옵니다</span>
-			</div>
-			<div>
-				<div class="m-3">
-					<b>댓글</b>
+		<%-- 여기서부터 포스트 카드들(타임라인 영역) --%>
+		<c:forEach items="${postList}" var="post">
+			<div class="post-card mt-3 border">
+				<div class="post-header bg-secondary d-flex justify-content-between">
+					<h4 class="mt-3 ml-3">작성자 닉네임</h4>
+					<img src="/static/img/more-icon.png" alt="modal">
 				</div>
-				<hr>
-				<div class="m-3">
-					<b>id1</b>
-					<span>댓글 1입니다</span>
-					<img src="/static/img/x-icon.png" alt="삭제버튼" width="10px">
+				<img src="${post.imgPath}" alt="포스트사진" class="w-100" height="500px">
+				
+				<div class="like-bar ml-3">
+					<img src="/static/img/heart-icon-fill.png" width="20px">
+					좋아요 10개
 				</div>
-				<div class="m-3">
-					<b>id2</b>
-					<span>댓글 2입니다</span>
-					<img src="/static/img/x-icon.png" alt="삭제버튼" width="10px">
+				<div class="pt-3 pl-3">
+					<b>작성자아이디</b>
+					<span class="pl-3">${post.content}</span>
+				</div>
+				<div>
+					<div class="m-3">
+						<b>댓글</b>
+					</div>
+					<hr>
+					<c:forEach items="${commentList}" var="comment">
+						<c:if test="${comment.postId eq post.id}">
+							<div class="m-3">
+								<b>id1</b>
+								<span>${comment.content}</span>
+								<img src="/static/img/x-icon.png" alt="삭제버튼" width="10px">
+							</div>
+						</c:if>
+					</c:forEach>
+				</div>
+				<div class="comment-bar d-flex justify-content-between input-group">
+					<input type="text" class="comment-input form-control" placeholder="댓글 달기">
+					<button type="button" class="commentBtn btn btn-lighty" data-post-id="${post.id}">게시</button>
 				</div>
 			</div>
-			<div class="comment-bar d-flex justify-content-between input-group">
-				<input type="text" class="comment-input form-control" placeholder="댓글 달기">
-				<div class="input-group-append">
-					<button type="button" class="btn btn-lighty">게시</button>
-				</div>
-			</div>
-		</div>
+		</c:forEach>
+		
 	</div>
 </div>
 
@@ -118,7 +121,7 @@ $(document).ready(function() {
 			, contentType: false
 			, success:function(data) {
 				if (data.code == 300) {
-					alert(data.result);
+					location.reload();
 				} else if (data.code == 550) {
 					alert(data.errorMessage);
 					location.href = "/user/sign_in_view";
@@ -129,8 +132,35 @@ $(document).ready(function() {
 			, error:function(e) {
 				alert("포스트 등록에 실패했습니다. 관리자에게 문의해주세요");
 			}
-		});
+		}); // -- ajax 끝
 		
+	}); // 글쓰기 버튼 끝
+	
+	// 댓글 게시 버튼 클릭
+	$('.commentBtn').on('click', function() {
+		// 코멘트를 쓸 포스트 아이디
+		let postId = $(this).data('post-id'); // data-post-id
+		//alert(postId);
+		// 지금 클릭된 게시버튼의 형제인 input 태그를 가져온다 (siblings)
+		let comment = $(this).siblings('input').val().trim();
+		
+		 $.ajax({
+			type:"POST"
+			, url:"/comment/create"
+			, data:{"comment":comment,"postId":postId}
+			, success:function(data) {
+				if (data.code == 300) {
+					location.reload();
+				} else if (data.code == 550) {
+					location.href = "/user/sign_in_view";					
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(e) {
+				alert(e);
+			}
+		});  // ajax 끝
 	});
 	
 });
