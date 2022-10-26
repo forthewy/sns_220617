@@ -29,6 +29,13 @@ public class PostRestController {
 		Map<String, Object> result = new HashMap<>();
 		
 		Integer userId = (Integer) session.getAttribute("userId");
+		
+		if (userId == null) {
+			result.put("code", 550);
+			result.put("errorMessage", "포스트 등록에 실패했습니다 로그인해주세요");
+			return result;
+		}
+		
 		String userLoginId = (String) session.getAttribute("userLoginId");
 		
 		int row = postBO.addPost(userId, userLoginId, content, file);

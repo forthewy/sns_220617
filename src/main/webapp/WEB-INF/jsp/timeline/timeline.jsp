@@ -119,12 +119,15 @@ $(document).ready(function() {
 			, success:function(data) {
 				if (data.code == 300) {
 					alert(data.result);
+				} else if (data.code == 550) {
+					alert(data.errorMessage);
+					location.href = "/user/sign_in_view";
 				} else {
 					alert(data.errorMessage);
 				}
 			}
 			, error:function(e) {
-				alert(e);
+				alert("포스트 등록에 실패했습니다. 관리자에게 문의해주세요");
 			}
 		});
 		
