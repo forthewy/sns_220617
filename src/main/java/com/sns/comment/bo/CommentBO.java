@@ -18,7 +18,4 @@ public class CommentBO {
 		return commentDAO.insertComment(userId, postId, comment);
 	}
 	
-	public List<Comment> getCommentListOrderByPostId() {
-		return commentDAO.selectCommentListOrderByPostId();
-	}
 }

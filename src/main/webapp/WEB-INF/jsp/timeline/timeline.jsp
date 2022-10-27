@@ -20,8 +20,10 @@
 				<button type="button" class="btn btn-info" id="createPostBtn">게시</button>
 			</div>
 		</div>
+		<div>
 		<%-- 여기서부터 포스트 카드들(타임라인 영역) --%>
-		<c:forEach items="${postList}" var="post">
+		<c:forEach items="${cardViewList}" var="cardView">
+		<c:set var="post" value="${cardView.post}"/>
 			<div class="post-card mt-3 border">
 				<div class="post-header bg-secondary d-flex justify-content-between">
 					<h4 class="mt-3 ml-3">작성자 닉네임</h4>
@@ -42,14 +44,12 @@
 						<b>댓글</b>
 					</div>
 					<hr>
-					<c:forEach items="${commentList}" var="comment">
-						<c:if test="${comment.postId eq post.id}">
+					<c:forEach items="${cardView.commentList}" var="comment">
 							<div class="m-3">
 								<b>id1</b>
 								<span>${comment.content}</span>
 								<img src="/static/img/x-icon.png" alt="삭제버튼" width="10px">
 							</div>
-						</c:if>
 					</c:forEach>
 				</div>
 				<div class="comment-bar d-flex justify-content-between input-group">
@@ -57,8 +57,9 @@
 					<button type="button" class="commentBtn btn btn-lighty" data-post-id="${post.id}">게시</button>
 				</div>
 			</div>
+			<c:remove var="post"/>
 		</c:forEach>
-		
+		</div>
 	</div>
 </div>
 
