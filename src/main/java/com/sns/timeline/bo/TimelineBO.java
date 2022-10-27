@@ -6,35 +6,63 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sns.comment.dao.CommentDAO;
-import com.sns.comment.model.Comment;
-import com.sns.post.dao.PostDAO;
+import com.sns.comment.bo.CommentBO;
+import com.sns.comment.model.CommentView;
+import com.sns.like.bo.LikeBO;
+import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
 import com.sns.timeline.model.CardView;
+import com.sns.user.bo.UserBO;
+import com.sns.user.model.User;
 
 @Service
 public class TimelineBO {
 	
 	@Autowired
-	private PostDAO postDAO;
+	private PostBO postBO;
 	
 	@Autowired
-	private CommentDAO commentDAO;
+	private CommentBO commentBO;
 	
-	public List<CardView> generateCardList() {
+	@Autowired
+	private UserBO userBO;
+	
+	@Autowired
+	private LikeBO likeBO;
+	
+	// jsp -> timelineController -> timelineBO -> postBO
+	//											-> commentBO
+	public List<CardView> generateCardList(Integer userId) { // 로그인이 안된 사람도 카드 목록이 보여야 하기 때문에 Integer userId
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		// 글 목록을 가져온다
-		List<Post> postList = postDAO.selectPostList();
+		List<Post> postList = postBO.getPostList();
 		
 		// 반복문 -> cardView 에 채워넣는다.
 		for (Post post : postList) {
-			
-			List<Comment> commentList = commentDAO.selectCommentByPostId(post.getId());
-			
 			CardView cardView = new CardView();
-			cardView.setCommentList(commentList);
+			// 글정보
 			cardView.setPost(post);
+			// 글쓴이 정보
+			User user = userBO.getUserById(post.getUserId());
+			cardView.setUser(user);
+			
+			// 글하나에 해당하는 댓글 목록
+			List<CommentView> commentList = commentBO.generateCommentViewByPostId(post.getId());
+			cardView.setCommentList(commentList);
+			
+			// 내가 좋아요를 눌렀는지
+			
+			if (userId == null) {
+				cardView.setFilledLike(false);
+			} else if(likeBO.getLikeByPostIdAndUserId(post.getId(), userId) > 0) { // 채워져있는지 확인
+				cardView.setFilledLike(true);
+			} else {
+				cardView.setFilledLike(false);
+			}
+			//cardView.setFilledLike(true);
+			
+			// 카드 리스트에 채우기 !!!!
 			cardViewList.add(cardView);
 		}
 		

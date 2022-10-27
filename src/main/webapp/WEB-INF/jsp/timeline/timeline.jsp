@@ -22,39 +22,47 @@
 		</div>
 		<div>
 		<%-- 여기서부터 포스트 카드들(타임라인 영역) --%>
-		<c:forEach items="${cardViewList}" var="cardView">
-		<c:set var="post" value="${cardView.post}"/>
+		<c:forEach items="${cardList}" var="card">
 			<div class="post-card mt-3 border">
 				<div class="post-header bg-secondary d-flex justify-content-between">
-					<h4 class="mt-3 ml-3">작성자 닉네임</h4>
+					<%-- <img src="${card.user.profileImgPath}" width="20px"> --%>
+					<h4 class="mt-3 ml-3">${card.user.loginId}</h4>
 					<img src="/static/img/more-icon.png" alt="modal">
 				</div>
-				<img src="${post.imgPath}" alt="포스트사진" class="w-100" height="500px">
+				<img src="${card.post.imgPath}" alt="포스트사진" class="w-100" height="500px">
 				
 				<div class="like-bar ml-3">
-					<img src="/static/img/heart-icon-fill.png" width="20px">
+					<c:choose>
+						<c:when test="${card.filledLike}">
+							<a href="#" class="likeBtn" data-post-id="${card.post.id}"><img src="/static/img/heart-icon-fill.png"  width="20px"></a>
+						</c:when>
+						<c:otherwise>
+							<a href="#" class="likeBtn" data-post-id="${card.post.id}"><img src="/static/img/heart-icon-empty.png"  width="20px"></a>
+						</c:otherwise>
+					</c:choose>
 					좋아요 10개
 				</div>
 				<div class="pt-3 pl-3">
-					<b>작성자아이디</b>
-					<span class="pl-3">${post.content}</span>
+					<b>${card.user.loginId}</b>
+					<span class="pl-3">${card.post.content}</span>
 				</div>
 				<div>
 					<div class="m-3">
 						<b>댓글</b>
 					</div>
 					<hr>
-					<c:forEach items="${cardView.commentList}" var="comment">
+					<%-- 댓글 목록 --%>
+					<c:forEach items="${card.commentList}" var="comment">
 							<div class="m-3">
-								<b>id1</b>
-								<span>${comment.content}</span>
+								<b>${comment.user.loginId}</b>
+								<span>${comment.comment.content}</span>
 								<img src="/static/img/x-icon.png" alt="삭제버튼" width="10px">
 							</div>
 					</c:forEach>
 				</div>
 				<div class="comment-bar d-flex justify-content-between input-group">
 					<input type="text" class="comment-input form-control" placeholder="댓글 달기">
-					<button type="button" class="commentBtn btn btn-lighty" data-post-id="${post.id}">게시</button>
+					<button type="button" class="commentBtn btn btn-lighty" data-post-id="${card.post.id}">게시</button>
 				</div>
 			</div>
 			<c:remove var="post"/>
@@ -162,7 +170,18 @@ $(document).ready(function() {
 				alert(e);
 			}
 		});  // ajax 끝
-	});
+	}); // 댓글 게시 버튼 클릭 끝
+	
+	// 좋아요 버튼
+	 $('.likeBtn').on('click', function(e) {
+		 e.preventDefault();
+		 let postId = $(this).data('post-id');
+		//alert(postId);
+		
+		$.ajax({
+			url:"/like/{postId}"
+		})
+	}) 
 	
 });
 

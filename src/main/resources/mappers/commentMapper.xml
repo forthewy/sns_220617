@@ -22,7 +22,7 @@
  			,NOW()
  		)
  	</insert>
- 	<select id="selectCommentByPostId" parameterType="int" resultType="com.sns.comment.model.Comment">
+ 	<select id="selectCommentListByPostId" parameterType="int" resultType="com.sns.comment.model.Comment">
  		SELECT
  			`id`
  			,`postId`
