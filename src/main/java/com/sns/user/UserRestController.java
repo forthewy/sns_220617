@@ -112,12 +112,15 @@ public class UserRestController {
 	@PostMapping("/update")
 	public Map<String, Object> update(
 			@RequestParam(value="password", required=false) String password,
-			@RequestParam(value="profileImg", required=false) MultipartFile file,
+			@RequestParam(value="file", required=false) MultipartFile file,
 			@RequestParam(value="name", required=false) String name,
 			@RequestParam(value="email", required=false) String email,
 			HttpSession session) {
 		
 		Map<String, Object> result = new HashMap<>();
+		
+		result.put("code", 300);
+		result.put("result", "success");
 		
 		return result;
 	}
