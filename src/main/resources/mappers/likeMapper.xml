@@ -36,4 +36,12 @@
  			, NOW()
  		)
  	</insert>
+ 	<select id="selectCountLikeByPostId" parameterType="int" resultType="int">
+ 		SELECT
+	 		COUNT(*)
+	 	FROM
+	 		`like`
+ 		WHERE
+ 			`postId` = #{postId}
+ 	</select>
  </mapper>

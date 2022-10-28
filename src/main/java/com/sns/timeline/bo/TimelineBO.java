@@ -60,7 +60,10 @@ public class TimelineBO {
 			} else {
 				cardView.setFilledLike(false);
 			}
-			//cardView.setFilledLike(true);
+			
+			//좋아요 갯수
+			int likeCount = likeBO.getCountLikeByPostId(post.getId());
+			cardView.setLikeCount(likeCount);
 			
 			// 카드 리스트에 채우기 !!!!
 			cardViewList.add(cardView);

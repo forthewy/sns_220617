@@ -18,4 +18,6 @@ public interface LikeDAO {
 	public int insertLikeByPostIdAndUserId(
 			@Param("postId") int postId,
 			@Param("userId")int userId);
+	
+	public int selectCountLikeByPostId(int postId);
 }

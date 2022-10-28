@@ -40,7 +40,7 @@
 							<a href="#" class="likeBtn" data-post-id="${card.post.id}"><img src="/static/img/heart-icon-empty.png"  width="20px"></a>
 						</c:otherwise>
 					</c:choose>
-					좋아요 10개
+					좋아요 ${card.likeCount}개
 				</div>
 				<div class="pt-3 pl-3">
 					<b>${card.user.loginId}</b>
@@ -179,9 +179,19 @@ $(document).ready(function() {
 		//alert(postId);
 		
 		$.ajax({
-			url:"/like/{postId}"
-		})
-	}) 
+			url:"/like/" + postId
+			, success:function(data) {
+				if (data.code == 300) {
+					location.reload();
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(e) {
+				alert("좋아요/ 좋아요 취소에 실패했습니다. 관리자에게 문의해주세요");
+			}
+		});
+	}); 
 	
 });
 

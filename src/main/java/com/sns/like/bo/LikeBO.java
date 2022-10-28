@@ -22,4 +22,8 @@ public class LikeBO {
 	public int addLikeByPostIdAndUserId(int postId, int userId) {
 		return likeDAO.insertLikeByPostIdAndUserId(postId, userId);
 	}
+	
+	public int getCountLikeByPostId(int postId) {
+		return likeDAO.selectCountLikeByPostId(postId);
+	}
 }
