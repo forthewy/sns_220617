@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="d-flex justify-content-center bg-light">
 	<div>
+		<%-- 홈유저의 프로필 박스 --%>
 		<div class="porfile-box d-flex align-items-center pl-5">
 			<img src="${homeUser.profileImgPath}" alt="프로필 사진" id="homeProfileImg" onerror="this.src='/static/img/stargram.png'">
 			<div>
@@ -18,12 +19,15 @@
 			</div>
 			<div class="pl-5">
 				<c:if test="${homeUser.loginId ne userLoginId}">
-					<button type="button" class="btn btn-secondary mr-2" id="followBtn">팔로우</button>
-					<button type="button" class="btn btn-light border border-secondary mr-2" id="followedBtn">팔로잉</button>
+					<c:choose>
+						<button type="button" class="btn btn-secondary mr-2" id="followBtn">팔로우</button>
+						<button type="button" class="btn btn-light border border-secondary mr-2" id="followedBtn">팔로잉</button>
+					</c:choose>
 					<button class="btn btn-info">메세지 보내기</button>
 				</c:if>
 			</div>
 		</div>
+		<%-- 홈 유저의 포스트 목록 --%>
 		<div id="homePosts" class="bg-secondary">
 		</div>
 	</div>

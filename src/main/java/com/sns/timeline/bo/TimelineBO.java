@@ -18,6 +18,7 @@ import com.sns.user.model.User;
 @Service
 public class TimelineBO {
 	
+	
 	@Autowired
 	private PostBO postBO;
 	
@@ -54,21 +55,18 @@ public class TimelineBO {
 			// 내가 좋아요를 눌렀는지
 			
 			if (userId == null) {
-				cardView.setFilledLike(false);
-			} else if(likeBO.getLikeByPostIdAndUserId(post.getId(), userId) > 0) { // 채워져있는지 확인
-				cardView.setFilledLike(true);
+				cardView.setFilledLike(false); // userId가 null이면 결과가 0이다. 별도의 예외처리가 필요하지 않다.
 			} else {
-				cardView.setFilledLike(false);
+				int count = likeBO.getLikeCountByPostIdOrUserId(post.getId(), userId); // 채워져있는지 확인
+				cardView.setFilledLike(count > 0 ? true: false);
 			}
-			
 			//좋아요 갯수
-			int likeCount = likeBO.getCountLikeByPostId(post.getId());
-			cardView.setLikeCount(likeCount);
+			cardView.setLikeCount(likeBO.getLikeCountByPostIdOrUserId(post.getId(), null));
 			
 			// 카드 리스트에 채우기 !!!!
 			cardViewList.add(cardView);
+			
 		}
-		
-		return cardViewList;
+			return cardViewList;
 	}
 }

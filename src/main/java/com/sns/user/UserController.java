@@ -58,18 +58,7 @@ public class UserController {
 		return "redirect:/user/sign_in_view";
 	}
 
-	@RequestMapping("/home_view")
-	public String homeView(
-			@RequestParam("homeUserId") String homeUserId,
-			Model model) {
-		
-		User user = userBO.getUserByLoginId(homeUserId);
-		
-		model.addAttribute("homeUser", user);
-		model.addAttribute("viewName", "user/home");
-		
-		return "template/layout";
-	}
+	
 	
 	/**
 	 * 회원정보 수정화면

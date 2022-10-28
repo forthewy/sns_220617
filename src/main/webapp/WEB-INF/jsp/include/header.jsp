@@ -9,7 +9,7 @@
 		<c:if test="${not empty userName}">
 			<a href="/user/info_view"><img src="/static/img/cogwheel.png" width="30px" class="mr-2"></a>
 			<img src="${profileImg}" alt="프로필 사진" class="profileImg" onerror="this.style.display='none';">
-			<a href="/user/home_view?homeUserId=${userLoginId}">${userLoginId}</a>
+			<a href="/home/home_view/${userLoginId}">${userLoginId}</a>
 			<span> 회원님 안녕하세요</span>
 			<a href="/user/sign_out" class="ml-3">로그아웃</a>
 		</c:if>
