@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -109,19 +110,58 @@ public class UserRestController {
 	return result;
 	}
 	
+	/**
+	 * 회원 정보 수정
+	 * @param loginId
+	 * @param password
+	 * @param name
+	 * @param email
+	 * @param file
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/update")
 	public Map<String, Object> update(
+			@RequestParam("loginId") String loginId,
 			@RequestParam(value="password", required=false) String password,
+			@RequestParam("name") String name,
+			@RequestParam("email") String email,
 			@RequestParam(value="file", required=false) MultipartFile file,
-			@RequestParam(value="name", required=false) String name,
-			@RequestParam(value="email", required=false) String email,
 			HttpSession session) {
 		
 		Map<String, Object> result = new HashMap<>();
+
+		// 로그인한 사람이 회원정보에서 넘어온 아이디와 다른 아이디일때 회원정보가 다르다고 한다.
+		String userLoginId = (String) session.getAttribute(loginId);
 		
-		result.put("code", 300);
-		result.put("result", "success");
+		if (!loginId.equals(loginId)) {
+			result.put("code", 600);
+			result.put("errorMessage", "수정된 정보와 로그인 정보가 일치하지 않습니다.");
+		}
+		
+		// 수정하고 세션 정보도 수정한다. 
+		int row = userBO.updateUserByLoginId(loginId, password, name, email, file);
+		
+		User user = userBO.getUserByLoginId(loginId);
+		
+		if (row > 0) {
+			result.put("code", 300);
+			result.put("result", "success");
+			
+			session.setAttribute("profileImg", user.getProfileImgPath());
+			session.setAttribute("userName", user.getName());
+			session.setAttribute("userPassword", user.getPassword());
+			session.setAttribute("userEmail", user.getEmail());
+			
+		} else {
+			result.put("code", 500);
+			result.put("errorMessage", "회원정보 수정에 실패하였습니다.");
+		}
 		
 		return result;
 	}
+	
+//	@GetMapping("/search")
+//	public Map<String, Object> search(
+	
 }

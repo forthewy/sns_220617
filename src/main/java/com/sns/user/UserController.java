@@ -1,5 +1,8 @@
 package com.sns.user;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +78,28 @@ public class UserController {
 		}
 		
 		model.addAttribute("viewName", "user/info");
+		
+		return "template/layout";
+	}
+	
+	/**
+	 * 유저 검색 화면
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/search_view")
+	public String searchView(
+			@RequestParam(value="searchId", required=false) String searchLoginId,
+			Model model) {
+		
+		List<User> userList = new LinkedList<>();
+		
+		if (searchLoginId != null) {
+			userList = userBO.getUserListBysearchLoginId(searchLoginId);
+		}
+		
+		model.addAttribute("userList", userList);
+		model.addAttribute("viewName", "user/search");
 		
 		return "template/layout";
 	}

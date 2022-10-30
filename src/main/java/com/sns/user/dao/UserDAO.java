@@ -1,5 +1,7 @@
 package com.sns.user.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +25,14 @@ public interface UserDAO {
 	public User selectUserByLoginId(String loginId);
 	
 	public User selectUserById(int id);
+	
+	public List<User> selectUserListBysearchLoginId(String searchLoginId);
+	
+	public int updateUserByLoginId(
+			@Param("loginId") String loginId,
+			@Param("password") String password,
+			@Param("name") String name,
+			@Param("email") String email,
+			@Param("profileImgPath") String profileImgPath);
+	
 }

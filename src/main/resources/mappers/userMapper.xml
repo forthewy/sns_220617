@@ -71,11 +71,40 @@
 			,`name`
 			,`email`
 			,`profileImgPath`
-			,`createdAt`
 			,`updatedAt`
 		FROM
 			`user`
 		WHERE
 			`id` = #{id}
+	</select>
+	<update id="updateUserByLoginId" parameterType="map">
+		UPDATE
+			`user`
+		SET
+			<if test="password != null">
+			`password` = #{password},
+			</if>
+			`name` = #{name},
+			`email`  = #{email}
+			<if test="profileImgPath != null">
+			, `profileImgPath` = #{profileImgPath}
+			</if>
+			, `updatedAt` = NOW()
+		WHERE
+			`loginId` = #{loginId}
+	</update>
+	<select id="selectUserListBysearchLoginId" parameterType="string" resultType="com.sns.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`profileImgPath`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` LIKE #{searchLoginId}
 	</select>
 </mapper>

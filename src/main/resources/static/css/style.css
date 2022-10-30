@@ -29,6 +29,13 @@ section {
 .infoBox {
 	box-shadow: 10px 5px 5px rgb(201, 200, 200);
 }
+.card-profile{
+	overflow:hidden;
+	border-radius: 70%;
+	height: 60px;
+	margin-top: 5px;
+	margin-left: 5px;
+}
 .post-box {
 	width: 100%;
 }
@@ -61,7 +68,22 @@ section {
 }
 #homePosts{
 	min-height: 500px;
-	
+	width: 757px;
+}
+.message-box {
+	height: 500px;
+}
+.message-history {
+	height : 430px;
+	width: 757px;
+	overflow:auto;
+}
+.messageCard {
+	max-width: 400px;
+}
+.search-box {
+	width: 757px;
+	height: 500px;
 }
 footer {
 	height: 100px;

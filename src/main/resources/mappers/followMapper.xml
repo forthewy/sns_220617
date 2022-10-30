@@ -26,4 +26,22 @@
  			AND
  			`userId_followed` = #{followedUserId}
  	</delete>
+ 	<select id="selectFollowCountByFollowerUserIdOrFollowedUserId" parameterType="map" resultType="int">
+ 		SELECT
+ 			COUNT(*)
+ 		FROM
+ 			`follow`
+ 		<choose>
+	 		<when test="followerUserId != null and followedUserId != null">
+	 		WHERE `userId_follower` = #{followerUserId}
+	 			AND `userId_followed` = #{followedUserId}
+	 		</when>
+	 		<when test="followedUserId != null">
+	 		WHERE `userId_followed` = #{followedUserId}
+	 		</when>
+	 		<when test="followerUserId != null">
+		 	 WHERE `userId_follower` = #{followerUserId}
+		 	</when>
+ 		</choose>
+ 	</select>
  </mapper>

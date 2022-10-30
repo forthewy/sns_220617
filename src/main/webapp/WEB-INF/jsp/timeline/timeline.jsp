@@ -25,8 +25,13 @@
 		<c:forEach items="${cardList}" var="card">
 			<div class="post-card mt-3 border">
 				<div class="post-header bg-secondary d-flex justify-content-between">
-					<%-- <img src="${card.user.profileImgPath}" width="20px"> --%>
-					<h4 class="mt-3 ml-3">${card.user.loginId}</h4>
+					<div class="d-flex justify-content-start">
+						<img src="${card.user.profileImgPath}" width="50px" class="card-profile" onerror="this.src='/static/img/stargram.png'">
+						<%-- 닉네임 클릭시 카드 작성자 홈화면으로 이동 --%>
+						<a a href="/home/home_view/${card.user.loginId}">
+							<h4 class="mt-3 ml-3">${card.user.loginId}</h4>
+						</a>
+					</div>
 					<img src="/static/img/more-icon.png" alt="modal">
 				</div>
 				<img src="${card.post.imgPath}" alt="포스트사진" class="w-100" height="500px">

@@ -6,15 +6,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileManagerService {
 	
-	public static final String FILE_UPLOAD_PATH = "D:\\parkjeesoo\\sns\\workspace\\images/";
-			
-			// "D:\\Jane\\spring-project\\sns\\workspace\\images/"; 노트북 주소
+
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	
+	
+	public static final String FILE_UPLOAD_PATH = "D:\\Jane\\spring-project\\sns\\workspace\\images/";
+			//  노트북 주소
+			//"D:\\parkjeesoo\\sns\\workspace\\images/";
+	
 	
 	public String saveFile(String userLogInId, MultipartFile file) {
 		String directoryName = userLogInId + "_" + System.currentTimeMillis() + "/";
@@ -37,4 +44,26 @@ public class FileManagerService {
 		return "/images/" + directoryName + file.getOriginalFilename();
 		
  	}
+	
+	public void deleteFile(String imgPath) {
+		Path path = Paths.get(FILE_UPLOAD_PATH + imgPath.replace("/images/", ""));
+		
+		if (Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				log.error("[이미지 삭제] 이미지 삭제 실패 imagePath:{}" , imgPath);
+			}
+		}
+		
+		path = path.getParent();
+		if (Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				log.error("[디렉토리 삭제] 디렉토리 삭제 실패 imagePath:{}" , imgPath);
+				
+			}
+		}
+	}
 }

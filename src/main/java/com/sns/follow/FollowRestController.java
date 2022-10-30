@@ -15,54 +15,29 @@ import com.sns.follow.bo.FollowBO;
 @RequestMapping("/follow")
 @RestController
 public class FollowRestController {
-
+	
 	@Autowired
 	private FollowBO followBO;
 	
-	/**
-	 * 팔로우 하기
-	 * @param followedUserId
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping("/create")
-	public Map<String, Object> createFollow(
-			@RequestParam("followedUserId") int followedUserId,
+	@RequestMapping("/follow")
+	public Map<String, Object> followToggle(
+			@RequestParam("homeUserId") int homeUserId,
 			HttpSession session) {
-		
 		Map<String, Object> result = new HashMap<>();
 		
-		int followUserId = (int) session.getAttribute("userId");
-		int row = followBO.addFollow(followUserId, followedUserId);
+		Integer userId = (Integer) session.getAttribute("userId");
 		
-		if (row > 0) {
-			result.put("code", 300);
-			result.put("result", "success");
-		} else {
-			result.put("code", 500);
-			result.put("errorMessage", "팔로우에 실패했습니다");
+		if (userId == null) {
+			result.put("code", 550);
+			result.put("errorMessage", "좋아요 혹은 좋아요 취소에 실패했습니다. 로그인해주세요");
+			
+			return result;
 		}
 		
-		return result;
-	}
-	
-	@RequestMapping("/delete")
-	public Map<String, Object> deleteFollow(
-			@RequestParam("followedUserId") int followedUserId,
-			HttpSession session) {
+		followBO.followToggle(homeUserId, userId);
 		
-		Map<String, Object> result = new HashMap<>();
-		
-		int followUserId = (int) session.getAttribute("userId");
-		int row = followBO.deleteFollow(followUserId, followedUserId);
-		
-		if (row > 0) {
-			result.put("code", 300);
-			result.put("result", "success");
-		} else {
-			result.put("code", 500);
-			result.put("errorMessage", "팔로우 취소에 실패했습니다");
-		}
+		result.put("code", 300);
+		result.put("result", "성공");
 		
 		return result;
 	}

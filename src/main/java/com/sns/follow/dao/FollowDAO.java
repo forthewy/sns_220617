@@ -13,4 +13,8 @@ public interface FollowDAO {
 	public int deleteFollow(
 			@Param("followerUserId") int followerUserId, 
 			@Param("followedUserId") int followedUserId);
+	
+	public int selectFollowCountByFollowerUserIdOrFollowedUserId(
+			@Param("followerUserId") Integer followerUserId,
+			@Param("followedUserId") Integer followedUserId);
 }
