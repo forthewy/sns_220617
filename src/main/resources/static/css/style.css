@@ -85,6 +85,11 @@ section {
 	width: 757px;
 	height: 500px;
 }
+#followModal {
+	display: none;
+	background-color: gray;
+	border-radius: 10%;
+}
 footer {
 	height: 100px;
 }

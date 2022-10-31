@@ -3,23 +3,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="post-box d-flex justify-content-center pt-5 pb-5">
 	<div class="w-50">
-		<%-- 파일첨부 및 게시 --%>
-		<div class="border bg-white">
-			<textarea id="postContent"></textarea>
-			<div class="bg-white d-flex justify-content-between"> 
-				<div class="d-flex justify-content-start">
-					<%-- file 태그는 숨겨두고 이미지를 클릭하면 file 태그를 클릭한 것처럼 이벤트를 줄 것이다. --%>
-					<input type="file" id="file" class="d-none" accept=".gif,.jpg,.jpeg,.png">
-					<%-- 이미지에 마우스 올리면 마우스 커서가 링크 커서로 변하도록 a 태그 사용 --%>
-					<a href="#" id="fileUploadBtn"><img src="/static/img/camera.webp" width="35px"></a>
-					
-					<%-- 업로드 된 임시 파일 이름 저장될 곳 --%>
-					<div id="fileName" class="ml-2">
+		<%-- 로그인된 사람만 보기 가능 파일첨부 및 게시 --%>
+		<c:if test="${userId ne null}">
+			<div class="border bg-white">
+				<textarea id="postContent"></textarea>
+				<div class="bg-white d-flex justify-content-between"> 
+					<div class="d-flex justify-content-start">
+						<%-- file 태그는 숨겨두고 이미지를 클릭하면 file 태그를 클릭한 것처럼 이벤트를 줄 것이다. --%>
+						<input type="file" id="file" class="d-none" accept=".gif,.jpg,.jpeg,.png">
+						<%-- 이미지에 마우스 올리면 마우스 커서가 링크 커서로 변하도록 a 태그 사용 --%>
+						<a href="#" id="fileUploadBtn"><img src="/static/img/camera.webp" width="35px"></a>
+						
+						<%-- 업로드 된 임시 파일 이름 저장될 곳 --%>
+						<div id="fileName" class="ml-2">
+						</div>
 					</div>
+					<button type="button" class="btn btn-info" id="createPostBtn">게시</button>
 				</div>
-				<button type="button" class="btn btn-info" id="createPostBtn">게시</button>
 			</div>
-		</div>
+		</c:if>
 		<div>
 		<%-- 여기서부터 포스트 카드들(타임라인 영역) --%>
 		<c:forEach items="${cardList}" var="card">
@@ -32,7 +34,14 @@
 							<h4 class="mt-3 ml-3">${card.user.loginId}</h4>
 						</a>
 					</div>
-					<img src="/static/img/more-icon.png" alt="modal">
+					<div>
+						<%-- 내가 쓴글에만 더 보기 버튼(삭제) 노출 --%>
+						<c:if test="${card.user.id eq userId}">
+							<a href="#" data-toggle="modal" class="more-btn"  data-target="#modal" data-post-id="${card.post.id}" data-post-user-id="${card.user.id}">
+								<img src="/static/img/more-icon.png"  width="70px">
+							</a>
+						</c:if>
+					</div>
 				</div>
 				<img src="${card.post.imgPath}" alt="포스트사진" class="w-100" height="500px">
 				
@@ -70,12 +79,32 @@
 					<button type="button" class="commentBtn btn btn-lighty" data-post-id="${card.post.id}">게시</button>
 				</div>
 			</div>
-			<c:remove var="post"/>
 		</c:forEach>
 		</div>
 	</div>
 </div>
 
+<!-- Modal -->
+<!-- Button Trigger modal -->
+
+
+<div class="modal fade" id="modal">
+<%-- modal-dialog-centered: 모달창을 수직 가운데 정렬, modal-sm: 작은 모달창 --%>
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+    	<%-- 모달 창 안에 내용 넣기 --%>
+    	<div class="text-center">
+	    	<div class="py-3 border-bottom">
+	    		<a href="#" id="delPostBtn">삭제하기</a>
+	    	</div>
+	    	<%-- data-dismiss="modal" 모달 창 닫힘 --%>
+	    	<div class="py-3">
+	    		<a href="#" data-dismiss="modal">취소</a>
+	    	</div>
+      	</div>
+    </div>
+  </div>
+</div>
 
 <script>
 $(document).ready(function() {
@@ -196,8 +225,43 @@ $(document).ready(function() {
 				alert("좋아요/좋아요 취소에 실패했습니다. 관리자에게 문의해주세요");
 			}
 		});
-	}); 
+	}); // 좋아요 버튼 끝
 	
+	// 더보기(...) 버튼 클릭 - 글 삭제를 위해서 => 삭제될 글번호를 모달에 넣어준다.
+	$('.more-btn').on('click', function(e) {
+		e.preventDefault();
+		let postId = $(this).data('post-id'); //getting
+		let postUserId = $(this).data('post-user-id');
+		
+		$('#modal').data('post-id', postId); // setting		data-post-id="1"
+		$('#modal').data('post-user-id', postUserId);
+	});
+	
+	// 모달창 안에 있는 (글)삭제하기 버튼 클릭
+	$('#delPostBtn').on('click', function(e) {
+		e.preventDefault();
+		
+		let postId = $('#modal').data('post-id');
+		let postUserId = $('#modal').data('post-user-id');
+		
+		$.ajax({
+			type:"DELETE"
+			, data:{"postId":postId, "postUserId":postUserId}
+			, url: "/post/delete"
+			, success:function(data) {
+				if (data.code == 300) {
+					alert("성공");
+					location.reload();
+				} else {
+					alert("삭제 실패");
+				}
+			}
+			, error: function(e) {
+				alert(e);
+			}
+		});
+	});
+	 
 });
 
 </script>

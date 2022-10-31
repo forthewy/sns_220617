@@ -57,4 +57,9 @@ public class FollowBO {
 	public List<Integer> getFollowUserIdListByFollowedUserId(int followedUserId){
 		return followDAO.selectFollowUserIdListByFollowedUserId(followedUserId);
 	}
+	
+	public List<Integer> getFolloweeUserIdListByFollowerUserId(int followerUserId){
+		return followDAO.selectFolloweeUserIdListByFollowerUserId(followerUserId);
+	}
+	
 }

@@ -2,6 +2,7 @@ package com.sns.home.model;
 
 import java.util.List;
 
+import com.sns.follow.model.Followee;
 import com.sns.post.model.Post;
 import com.sns.user.model.User;
 
@@ -26,7 +27,7 @@ public class HomeView {
 	private List<User> follow;
 	
 	//팔로우한 사람 정보
-	private List<User> followee;
+	private List<Followee> followeeList;
 	
 	public User getUser() {
 		return user;
@@ -76,11 +77,5 @@ public class HomeView {
 		this.follow = follow;
 	}
 
-	public List<User> getFollowee() {
-		return followee;
-	}
-
-	public void setFollowee(List<User> followee) {
-		this.followee = followee;
-	}
+	
 }

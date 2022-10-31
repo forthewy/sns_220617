@@ -8,21 +8,23 @@
 			<img src="${home.user.profileImgPath}" alt="프로필 사진" id="homeProfileImg" onerror="this.src='/static/img/stargram.png'">
 			<div>
 				<h1 class="ml-5">${home.user.loginId}</h1>
-				<ul class="nav ml-3">
-					<li class="nav-item">
-						<a class="nav-link" href="#"  id="followViewBtn"><img src="/static/img/person.webp" alt="팔로워" width="30px">팔로워 ${home.followingCount}</a>
-						<table id="followList" class="table d-none">
-							<c:forEach items="${home.follow}" var="follower">
-								<tr>
-									<td>${follower.loginId}</td>
-								</tr>						
-							</c:forEach>
-						</table>					
-					</li>
-					<li class="nav-item">
+				<div class="ml-3">
+					<div class="dropdown">
+						<%-- 드롭 다운 토글 --%>
+						<img class="dropdown-toggle" src="/static/img/person.webp" alt="팔로워" width="30px">팔로워 ${home.followingCount}</a>					
+						<%-- 팔로워 리스트 --%>
+						<ul id="followListMenu">
+							<li id="followList" class="dropdown-menu">
+								<c:forEach items="${home.follow}" var="follower">
+										<a href="#" class="dropdown-item">${follower.loginId}</a>
+								</c:forEach>
+							</li>
+						</ul>
+					</div>
+					<ul class="nav">
 						<a class="nav-link" href="#"><img src="/static/img/person.webp" alt="팔로잉" width="30px">팔로잉 ${home.followerCount}</a>
-					</li>
-				</ul>
+					</ul>
+				</div>
 			</div>
 			<div class="pl-5">
 				<%-- 팔로우 버튼, 메세지 버튼 --%>
@@ -50,6 +52,14 @@
 				</c:forEach>	
 			</div>
 		</div>
+		
+		<table id="followeeList" class="table d-none">
+			<c:forEach items="${home.followee}" var="followee">
+				<tr>
+					<td>${followee.loginId}</td>
+				</tr>						
+			</c:forEach>
+		</table>
 	</div>
 </div>
 <script>
@@ -75,10 +85,6 @@
 				}
 			});// ajax 끝 */
 		}); // 팔로우 기능 끝
-		
-		$('#followViewBtn').on('click', function() {
-			$('#followList').removeClass('d-none');
-		});
 		
 		
 	});

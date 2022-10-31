@@ -67,6 +67,16 @@ public class HomeBO {
 		}
 		homeView.setFollow(followList);
 		
+		// 팔로이 리스트
+		List<User> followeeList = new LinkedList<>();
+		List<Integer> followeeIdList = followBO.getFolloweeUserIdListByFollowerUserId(homeUser.getId());
+		for (int id : followeeIdList) {
+			User user = new User();
+			user = userBO.getUserById(id);
+			followeeList.add(user);
+		}
+		homeView.setFollowee(followeeList);
+		
 		return homeView;
 	}
 }
