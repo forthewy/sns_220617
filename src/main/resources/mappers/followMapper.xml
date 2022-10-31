@@ -44,4 +44,12 @@
 		 	</when>
  		</choose>
  	</select>
+ 	<select id="selectFollowUserIdListByFollowedUserId" parameterType="Integer" resultType="int">
+ 		SELECT
+ 			`userId_follower`
+ 		FROM
+ 			`follow`
+ 		WHERE
+ 			`userId_followed` = #{followedUserId}
+ 	</select>
  </mapper>

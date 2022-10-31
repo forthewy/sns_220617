@@ -1,5 +1,7 @@
 package com.sns.follow.bo;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,9 @@ public class FollowBO {
 	public int getFollowCountByFollowerUserIdOrFollowedUserId(Integer followerUserId,
 			Integer followedUserId) {
 		return followDAO.selectFollowCountByFollowerUserIdOrFollowedUserId(followerUserId, followedUserId);
+	}
+	
+	public List<Integer> getFollowUserIdListByFollowedUserId(int followedUserId){
+		return followDAO.selectFollowUserIdListByFollowedUserId(followedUserId);
 	}
 }

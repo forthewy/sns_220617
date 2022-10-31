@@ -10,7 +10,14 @@
 				<h1 class="ml-5">${home.user.loginId}</h1>
 				<ul class="nav ml-3">
 					<li class="nav-item">
-						<a class="nav-link" href="#"><img src="/static/img/person.webp" alt="팔로워" width="30px">팔로워 ${home.followingCount}</a>
+						<a class="nav-link" href="#"  id="followViewBtn"><img src="/static/img/person.webp" alt="팔로워" width="30px">팔로워 ${home.followingCount}</a>
+						<table id="followList" class="table d-none">
+							<c:forEach items="${home.follow}" var="follower">
+								<tr>
+									<td>${follower.loginId}</td>
+								</tr>						
+							</c:forEach>
+						</table>					
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#"><img src="/static/img/person.webp" alt="팔로잉" width="30px">팔로잉 ${home.followerCount}</a>
@@ -67,6 +74,10 @@
 					alert(e);
 				}
 			});// ajax 끝 */
+		}); // 팔로우 기능 끝
+		
+		$('#followViewBtn').on('click', function() {
+			$('#followList').removeClass('d-none');
 		});
 		
 		

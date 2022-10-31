@@ -1,5 +1,6 @@
 package com.sns.home.bo;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -49,12 +50,22 @@ public class HomeBO {
 		homeView.setFollowerCount(follower);
 		
 		//내가 팔로우 했는지.
-		int follow = followBO.getFollowCountByFollowerUserIdOrFollowedUserId(homeUser.getId(), userId);
-		if (follow > 0) {
+		int followed = followBO.getFollowCountByFollowerUserIdOrFollowedUserId(homeUser.getId(), userId);
+		if (followed > 0) {
 			homeView.setFollowOrNot(true);
-		} else if (follow == 0){
+		} else if (followed == 0){
 			homeView.setFollowOrNot(false);
 		}
+		
+		// 팔로워 리스트
+		List<User> followList = new LinkedList<>();
+		List<Integer> followIdList = followBO.getFollowUserIdListByFollowedUserId(homeUser.getId());
+		for (int id : followIdList) {
+			User user = new User();
+			user = userBO.getUserById(id);
+			followList.add(user);
+		}
+		homeView.setFollow(followList);
 		
 		return homeView;
 	}

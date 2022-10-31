@@ -22,6 +22,11 @@ public class HomeView {
 	// 내가 팔로우 했는지
 	private boolean followOrNot;
 	
+	//팔로워 정보
+	private List<User> follow;
+	
+	//팔로우한 사람 정보
+	private List<User> followee;
 	
 	public User getUser() {
 		return user;
@@ -62,5 +67,20 @@ public class HomeView {
 	public void setFollowOrNot(boolean followOrNot) {
 		this.followOrNot = followOrNot;
 	}
-	
+
+	public List<User> getFollow() {
+		return follow;
+	}
+
+	public void setFollow(List<User> follow) {
+		this.follow = follow;
+	}
+
+	public List<User> getFollowee() {
+		return followee;
+	}
+
+	public void setFollowee(List<User> followee) {
+		this.followee = followee;
+	}
 }
