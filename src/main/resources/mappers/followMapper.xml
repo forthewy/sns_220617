@@ -36,10 +36,10 @@
 	 		WHERE `userId_follower` = #{followerUserId}
 	 			AND `userId_followed` = #{followedUserId}
 	 		</when>
-	 		<when test="followedUserId != null">
+	 		<when test="followedUserId != null"> <!-- 홈유저를 팔로우 한 사람을 찾아야할때 -->
 	 		WHERE `userId_followed` = #{followedUserId}
 	 		</when>
-	 		<when test="followerUserId != null">
+	 		<when test="followerUserId != null"> <!--  홈유저가 팔로우한 사람을 찾을때 -->
 		 	 WHERE `userId_follower` = #{followerUserId}
 		 	</when>
  		</choose>
@@ -50,14 +50,20 @@
  		FROM
  			`follow`
  		WHERE
- 			 = #{followedUserId}
+ 			`userId_follower` = #{followedUserId}
  	</select>
- 	<select id="selectFolloweeIdByFollowerId" parameterType="Integer" resultType="int">
+ 	<select id="selectFolloweeUserIdByFollowerUserId" parameterType="int" resultType="int">
  		SELECT
  			`userId_followed`
  		FROM
  			`follow`
- 		WHERE
- 			`userId_follower` = #{followerUserId}
+		WHERE `userId_follower` = #{followerUserId}
+ 	</select>
+ 	<select id="selectFollowerUserIdByFollowerUserId" parameterType="int" resultType="int">
+ 		SELECT
+ 			`userId_follower`
+ 		FROM
+ 			`follow`
+		WHERE `userId_followed` = #{followedUserId}
  	</select>
  </mapper>

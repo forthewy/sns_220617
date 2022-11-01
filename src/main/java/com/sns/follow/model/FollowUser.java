@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sns.user.model.User;
 
-public class Followee {
+public class FollowUser {
 	
 	private String loginId;
 	

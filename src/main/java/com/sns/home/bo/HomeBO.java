@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sns.follow.bo.FollowBO;
-import com.sns.follow.model.Followee;
+import com.sns.follow.model.FollowUser;
 import com.sns.home.model.HomeView;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
@@ -57,17 +57,11 @@ public class HomeBO {
 		}
 		
 		// 팔로워 리스트
-//		List<User> followList = new LinkedList<>();
-//		List<Integer> followIdList = followBO.getFollowUserIdListByFollowedUserId(homeUser.getId());
-//		for (int id : followIdList) {
-//			User user = new User();
-//			user = userBO.getUserById(id);
-//			followList.add(user);
-//		}
-//		homeView.setFollow(followList);
+		List<FollowUser> followerList = followBO.getFollowUserByUserId(homeUser.getId(), null);
+		homeView.setFollowerList(followerList);
 		
 		// 팔로이 리스트
-		List<Followee> followeeList = followBO.getFolloweeByUserId(homeUser.getId());
+		List<FollowUser> followeeList = followBO.getFollowUserByUserId(null, homeUser.getId());
 		homeView.setFolloweeList(followeeList);
 		
 		

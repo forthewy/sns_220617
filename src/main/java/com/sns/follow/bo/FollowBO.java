@@ -1,5 +1,6 @@
 package com.sns.follow.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sns.follow.dao.FollowDAO;
-import com.sns.follow.model.Followee;
+import com.sns.follow.model.FollowUser;
 import com.sns.user.bo.UserBO;
 import com.sns.user.model.User;
 
@@ -61,31 +62,45 @@ public class FollowBO {
 		return followDAO.selectFollowCountByFollowerUserIdOrFollowedUserId(followerUserId, followedUserId);
 	}
 	
-	// 팔로이 아이디 목록
-	public List<Integer> getFolloweeIdByFollowerId(int followerId) {
-		return followDAO.selectFolloweeIdByFollowerId(followerId);
+	// 팔로이id 조회
+	public List<Integer> getFolloweeIdByFollowUserId(Integer followerUserId) {
+		return followDAO.selectFolloweeUserIdByFollowerUserId(followerUserId);
 	}
 	
-	// 팔로이 : 내가 팔로우 하는 사람
-	public List<Followee> getFolloweeByUserId(int followerId) {
+	// 팔로워id 조회
+	public List<Integer> getFollowerIdByFollowUserId(Integer followedUserId) {
+		return followDAO.selectFollowerUserIdByFollowerUserId(followedUserId);
+	}
+	
+	
+	// 팔로워 혹은 팔로이 조회 null 값 아닌 쪽으로 id 목록 만들기
+	public List<FollowUser> getFollowUserByUserId(Integer followerId, Integer followedUserId) {
 		
-		List<Integer> followeeIdList = getFolloweeIdByFollowerId(followerId);
-		List<Followee> followeeList = new LinkedList<>();
+		List<Integer> followUserIdList = new ArrayList<>();
 		
-		for (Integer followeeId: followeeIdList) {
-			// 팔로이 아이디로 유저를 구하고
-			User user = userBO.getUserById(followeeId);
+		if (followerId == null) {
+			followUserIdList = getFolloweeIdByFollowUserId(followedUserId);
+		} else {
+			followUserIdList = getFollowerIdByFollowUserId(followerId);
+		}
+		
+		List<FollowUser> followUserList = new LinkedList<>();
+		
+		for (Integer followUserId: followUserIdList) {
+			// 아이디로 유저를 구하고
+			User user = userBO.getUserById(followUserId);
 			
-			// 유저 정보로 팔로이 정보를 넣는다.
-			Followee followee = new Followee();
-			followee.setLoginId(user.getLoginId());
-			followee.setProfileImgPath(user.getProfileImgPath());
+			// 유저 정보로 정보를 넣는다.
+			FollowUser followUser = new FollowUser();
+			followUser.setLoginId(user.getLoginId());
+			followUser.setProfileImgPath(user.getProfileImgPath());
 			
-			followeeList.add(followee);
+			followUserList.add(followUser);
 		}
 			
-		return followeeList;
+		return followUserList;
 		
 	}
+	
 	
 }

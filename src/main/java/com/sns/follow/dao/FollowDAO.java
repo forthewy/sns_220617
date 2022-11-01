@@ -20,7 +20,7 @@ public interface FollowDAO {
 			@Param("followerUserId") Integer followerUserId,
 			@Param("followedUserId") Integer followedUserId);
 	
-	public List<Integer> selectFollowerIdListByFollowedUserId(int followedUserId);
+	public List<Integer> selectFolloweeUserIdByFollowerUserId(Integer followerUserId);
 	
-	public List<Integer> selectFolloweeIdByFollowerId(int followerId);
+	public List<Integer> selectFollowerUserIdByFollowerUserId(Integer followedUserId);
 }

@@ -8,13 +8,17 @@
 			<img src="${home.user.profileImgPath}" alt="프로필 사진" id="homeProfileImg" onerror="this.src='/static/img/stargram.png'">
 			<div>
 				<h1 class="ml-5">${home.user.loginId}</h1>
-				<div class="ml-3 d-flex">
-					<%-- <li class="nav-item"> ${home.followerCount}
-							<a href="#none" data-toggle="modal" data-target="#exampleModal" id="modalBtn"><img src="/static/img/person.webp" alt="팔로잉" width="30px">팔로잉 </a>
-						</li> --%>
-					<a href="#" data-toggle="modal" data-target="#exampleModal">
-						팔로워 ${home.followingCount}
-					</a>	
+				<div class="ml-5 d-flex">
+					<div class="mr-2">
+						<a href="#" data-toggle="modal" data-target="#followerModal">
+							팔로잉 ${home.followerCount}
+						</a>
+					</div>
+					<div>	
+						<a href="#" data-toggle="modal" data-target="#followeeModal">
+							팔로워 ${home.followingCount} <%-- 이거 왜 지금 반대로 나오는 건지..? --%>
+						</a>
+					</div>	
 				</div>
 			</div>
 			<div class="pl-5">
@@ -45,21 +49,35 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="exampleModal">
+<div class="modal fade" id="followerModal">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-body">
-      	<table class="table">
-      		<tbody>
-		        <c:forEach items="${home.followeeList}" var="followee">
-		        	<tr>
-		        		<td><img src="${followee.profileImgPath}" width="30px"></td>
-		        		<td>${followee.loginId}</td>
-		        	</tr>
-		        </c:forEach>
-	        </tbody>
-        </table>
+    	<table class="table text-start">
+	      <c:forEach items="${home.followerList}" var="follower"> 
+			<tr>
+				<td class="col-1"><img src="${follower.profileImgPath}" width="60px" onerror="this.src='/static/img/stargram.png'"></td>
+				<td>${follower.loginId}</td>
+			</tr>
+	      </c:forEach>
+    	</table>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
+    </div>
+  </div>
+</div>
+<!-- 팔로잉 모달 -->
+<div class="modal fade" id="followeeModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    	<table class="table text-start">
+	      <c:forEach items="${home.followeeList}" var="followee"> 
+			<tr>
+				<td class="col-1"><img src="${followee.profileImgPath}" width="60px" onerror="this.src='/static/img/stargram.png'"></td>
+				<td>${followee.loginId}</td>
+			</tr>
+	      </c:forEach>
+    	</table>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>

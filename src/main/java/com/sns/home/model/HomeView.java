@@ -2,7 +2,7 @@ package com.sns.home.model;
 
 import java.util.List;
 
-import com.sns.follow.model.Followee;
+import com.sns.follow.model.FollowUser;
 import com.sns.post.model.Post;
 import com.sns.user.model.User;
 
@@ -24,10 +24,10 @@ public class HomeView {
 	private boolean followOrNot;
 	
 	//팔로워 정보
-	private List<User> follow;
+	private List<FollowUser> followerList;
 	
 	//팔로우한 사람 정보
-	private List<Followee> followeeList;
+	private List<FollowUser> followeeList;
 
 	public User getUser() {
 		return user;
@@ -69,19 +69,20 @@ public class HomeView {
 		this.followOrNot = followOrNot;
 	}
 
-	public List<User> getFollow() {
-		return follow;
+	
+	public List<FollowUser> getFollowerList() {
+		return followerList;
 	}
 
-	public void setFollow(List<User> follow) {
-		this.follow = follow;
+	public void setFollowerList(List<FollowUser> followerList) {
+		this.followerList = followerList;
 	}
 
-	public List<Followee> getFolloweeList() {
+	public List<FollowUser> getFolloweeList() {
 		return followeeList;
 	}
 
-	public void setFolloweeList(List<Followee> followeeList) {
+	public void setFolloweeList(List<FollowUser> followeeList) {
 		this.followeeList = followeeList;
 	}
 	
