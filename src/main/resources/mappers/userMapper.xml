@@ -93,18 +93,4 @@
 		WHERE
 			`loginId` = #{loginId}
 	</update>
-	<select id="selectUserListBysearchLoginId" parameterType="string" resultType="com.sns.user.model.User">
-		SELECT
-			`id`
-			,`loginId`
-			,`password`
-			,`name`
-			,`email`
-			,`profileImgPath`
-			,`updatedAt`
-		FROM
-			`user`
-		WHERE
-			`loginId` LIKE #{searchLoginId}
-	</select>
 </mapper>

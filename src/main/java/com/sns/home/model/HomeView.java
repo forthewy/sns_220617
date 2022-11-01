@@ -28,11 +28,11 @@ public class HomeView {
 	
 	//팔로우한 사람 정보
 	private List<Followee> followeeList;
-	
+
 	public User getUser() {
 		return user;
 	}
-		
+
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -77,5 +77,13 @@ public class HomeView {
 		this.follow = follow;
 	}
 
+	public List<Followee> getFolloweeList() {
+		return followeeList;
+	}
+
+	public void setFolloweeList(List<Followee> followeeList) {
+		this.followeeList = followeeList;
+	}
+	
 	
 }

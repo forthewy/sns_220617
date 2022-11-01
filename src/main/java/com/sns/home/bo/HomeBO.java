@@ -3,12 +3,11 @@ package com.sns.home.bo;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sns.follow.bo.FollowBO;
+import com.sns.follow.model.Followee;
 import com.sns.home.model.HomeView;
 import com.sns.post.bo.PostBO;
 import com.sns.post.model.Post;
@@ -58,24 +57,19 @@ public class HomeBO {
 		}
 		
 		// 팔로워 리스트
-		List<User> followList = new LinkedList<>();
-		List<Integer> followIdList = followBO.getFollowUserIdListByFollowedUserId(homeUser.getId());
-		for (int id : followIdList) {
-			User user = new User();
-			user = userBO.getUserById(id);
-			followList.add(user);
-		}
-		homeView.setFollow(followList);
+//		List<User> followList = new LinkedList<>();
+//		List<Integer> followIdList = followBO.getFollowUserIdListByFollowedUserId(homeUser.getId());
+//		for (int id : followIdList) {
+//			User user = new User();
+//			user = userBO.getUserById(id);
+//			followList.add(user);
+//		}
+//		homeView.setFollow(followList);
 		
 		// 팔로이 리스트
-		List<User> followeeList = new LinkedList<>();
-		List<Integer> followeeIdList = followBO.getFolloweeUserIdListByFollowerUserId(homeUser.getId());
-		for (int id : followeeIdList) {
-			User user = new User();
-			user = userBO.getUserById(id);
-			followeeList.add(user);
-		}
-		homeView.setFollowee(followeeList);
+		List<Followee> followeeList = followBO.getFolloweeByUserId(homeUser.getId());
+		homeView.setFolloweeList(followeeList);
+		
 		
 		return homeView;
 	}

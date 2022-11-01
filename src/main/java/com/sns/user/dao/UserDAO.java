@@ -25,9 +25,7 @@ public interface UserDAO {
 	public User selectUserByLoginId(String loginId);
 	
 	public User selectUserById(int id);
-	
-	public List<User> selectUserListBysearchLoginId(String searchLoginId);
-	
+
 	public int updateUserByLoginId(
 			@Param("loginId") String loginId,
 			@Param("password") String password,

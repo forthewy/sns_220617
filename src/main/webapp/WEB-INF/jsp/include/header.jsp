@@ -12,8 +12,6 @@
 			<a href="/home/home_view/${userLoginId}"><img src="/static/img/house.png" width="30px" alt="홈화면 이동"></a>
 			<%-- 메세지 리스트화면 이동 --%>
 			<a href="/message/messageList_view"><img src="/static/img/letter.webp" width="30px" alt="메세지 리스트 이동"></a>
-			<%-- 검색화면 이동 --%>
-			<a href="/user/search_view"><img src="/static/img/magnifying-glass.png" width="30px" alt="검색 화면 이동"></a>
 			<%-- 회원정보 수정 --%>
 			<a href="/user/info_view"><img src="/static/img/cogwheel.png" width="30px" class="mr-2"></a>
 			<img src="${profileImg}" alt="프로필 사진" class="profileImg" onerror="this.style.display='none';">

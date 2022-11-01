@@ -50,9 +50,9 @@
  		FROM
  			`follow`
  		WHERE
- 			`userId_followed` = #{followedUserId}
+ 			 = #{followedUserId}
  	</select>
- 	<select id="selectFolloweeUserIdListByFollowerUserId" parameterType="Integer" resultType="int">
+ 	<select id="selectFolloweeIdByFollowerId" parameterType="Integer" resultType="int">
  		SELECT
  			`userId_followed`
  		FROM

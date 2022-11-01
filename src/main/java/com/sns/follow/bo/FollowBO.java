@@ -1,5 +1,6 @@
 package com.sns.follow.bo;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sns.follow.dao.FollowDAO;
+import com.sns.follow.model.Followee;
+import com.sns.user.bo.UserBO;
+import com.sns.user.model.User;
 
 @Service
 public class FollowBO {
@@ -16,6 +20,9 @@ public class FollowBO {
 
 	@Autowired
 	private FollowDAO followDAO;
+	
+	@Autowired
+	private UserBO userBO;
 	
 	// 팔로우 토글
 	public void followToggle(int followerUserId, int followedUserId) {
@@ -54,12 +61,31 @@ public class FollowBO {
 		return followDAO.selectFollowCountByFollowerUserIdOrFollowedUserId(followerUserId, followedUserId);
 	}
 	
-	public List<Integer> getFollowUserIdListByFollowedUserId(int followedUserId){
-		return followDAO.selectFollowUserIdListByFollowedUserId(followedUserId);
+	// 팔로이 아이디 목록
+	public List<Integer> getFolloweeIdByFollowerId(int followerId) {
+		return followDAO.selectFolloweeIdByFollowerId(followerId);
 	}
 	
-	public List<Integer> getFolloweeUserIdListByFollowerUserId(int followerUserId){
-		return followDAO.selectFolloweeUserIdListByFollowerUserId(followerUserId);
+	// 팔로이 : 내가 팔로우 하는 사람
+	public List<Followee> getFolloweeByUserId(int followerId) {
+		
+		List<Integer> followeeIdList = getFolloweeIdByFollowerId(followerId);
+		List<Followee> followeeList = new LinkedList<>();
+		
+		for (Integer followeeId: followeeIdList) {
+			// 팔로이 아이디로 유저를 구하고
+			User user = userBO.getUserById(followeeId);
+			
+			// 유저 정보로 팔로이 정보를 넣는다.
+			Followee followee = new Followee();
+			followee.setLoginId(user.getLoginId());
+			followee.setProfileImgPath(user.getProfileImgPath());
+			
+			followeeList.add(followee);
+		}
+			
+		return followeeList;
+		
 	}
 	
 }

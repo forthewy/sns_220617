@@ -8,22 +8,13 @@
 			<img src="${home.user.profileImgPath}" alt="프로필 사진" id="homeProfileImg" onerror="this.src='/static/img/stargram.png'">
 			<div>
 				<h1 class="ml-5">${home.user.loginId}</h1>
-				<div class="ml-3">
-					<div class="dropdown">
-						<%-- 드롭 다운 토글 --%>
-						<img class="dropdown-toggle" src="/static/img/person.webp" alt="팔로워" width="30px">팔로워 ${home.followingCount}</a>					
-						<%-- 팔로워 리스트 --%>
-						<ul id="followListMenu">
-							<li id="followList" class="dropdown-menu">
-								<c:forEach items="${home.follow}" var="follower">
-										<a href="#" class="dropdown-item">${follower.loginId}</a>
-								</c:forEach>
-							</li>
-						</ul>
-					</div>
-					<ul class="nav">
-						<a class="nav-link" href="#"><img src="/static/img/person.webp" alt="팔로잉" width="30px">팔로잉 ${home.followerCount}</a>
-					</ul>
+				<div class="ml-3 d-flex">
+					<%-- <li class="nav-item"> ${home.followerCount}
+							<a href="#none" data-toggle="modal" data-target="#exampleModal" id="modalBtn"><img src="/static/img/person.webp" alt="팔로잉" width="30px">팔로잉 </a>
+						</li> --%>
+					<a href="#" data-toggle="modal" data-target="#exampleModal">
+						팔로워 ${home.followingCount}
+					</a>	
 				</div>
 			</div>
 			<div class="pl-5">
@@ -52,15 +43,28 @@
 				</c:forEach>	
 			</div>
 		</div>
-		
-		<table id="followeeList" class="table d-none">
-			<c:forEach items="${home.followee}" var="followee">
-				<tr>
-					<td>${followee.loginId}</td>
-				</tr>						
-			</c:forEach>
-		</table>
 	</div>
+</div>
+<div class="modal fade" id="exampleModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<table class="table">
+      		<tbody>
+		        <c:forEach items="${home.followeeList}" var="followee">
+		        	<tr>
+		        		<td><img src="${followee.profileImgPath}" width="30px"></td>
+		        		<td>${followee.loginId}</td>
+		        	</tr>
+		        </c:forEach>
+	        </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 	$(document).ready(function() {
@@ -85,7 +89,6 @@
 				}
 			});// ajax 끝 */
 		}); // 팔로우 기능 끝
-		
 		
 	});
 </script>

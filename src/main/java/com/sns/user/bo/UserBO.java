@@ -45,12 +45,6 @@ public class UserBO {
 		return userDAO.selectUserById(id);
 	}
 	
-	// 시작하는 글자가 같은 유저를 찾는다.
-	public List<User> getUserListBysearchLoginId(String searchLoginId) {
-		String likeLoginId = searchLoginId + "%";
-		return userDAO.selectUserListBysearchLoginId(likeLoginId);
-	}
-	
 	public int updateUserByLoginId(String loginId,String password,String name,String email,MultipartFile file) {
 	
 		User user = getUserByLoginId(loginId);

@@ -161,7 +161,5 @@ public class UserRestController {
 		return result;
 	}
 	
-//	@GetMapping("/search")
-//	public Map<String, Object> search(
 	
 }
