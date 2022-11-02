@@ -10,17 +10,17 @@ public interface FollowDAO {
 
 	public int insertFollow(
 			@Param("followerUserId") int followerUserId, 
-			@Param("followedUserId") int followedUserId);
+			@Param("followeeUserId") int followeeUserId);
 	
 	public int deleteFollow(
 			@Param("followerUserId") int followerUserId, 
-			@Param("followedUserId") int followedUserId);
+			@Param("followeeUserId") int followeeUserId);
 	
-	public int selectFollowCountByFollowerUserIdOrFollowedUserId(
+	public int selectFollowCountByFollowerUserIdOrFolloweeUserId(
 			@Param("followerUserId") Integer followerUserId,
-			@Param("followedUserId") Integer followedUserId);
+			@Param("followeeUserId") Integer followeeUserId);
 	
 	public List<Integer> selectFolloweeUserIdByFollowerUserId(Integer followerUserId);
 	
-	public List<Integer> selectFollowerUserIdByFollowerUserId(Integer followedUserId);
+	public List<Integer> selectFollowerUserIdByFolloweeUserId(Integer followeeUserId);
 }

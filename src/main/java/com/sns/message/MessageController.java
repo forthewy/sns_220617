@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sns.chatroom.bo.ChatroomBO;
 import com.sns.message.bo.MessageBO;
 import com.sns.message.model.Message;
 import com.sns.user.model.User;
@@ -35,7 +36,7 @@ public class MessageController {
 			return "redirect:/user/sign_in_view";
 		}
 		
-		List<Message> messageList = messageBO.getMessageListBySenderIdAndReceiverId(senderId, receiverId);
+		List<Message> messageList = messageBO.getMessageListByChatroomId(senderId, receiverId);
 				
 		model.addAttribute("messageList", messageList);
 		
@@ -53,7 +54,7 @@ public class MessageController {
 			Model model) {
 		
 		Integer userId = (Integer) session.getAttribute("userId"); 
-		List<User> userList = messageBO.getUserByMessageUserId(userId); 
+		List<ChatroomView> chatroomList = 
 				
 		model.addAttribute("userList", userList);
 		model.addAttribute("viewName", "/message/messageList");

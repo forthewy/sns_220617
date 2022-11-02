@@ -41,15 +41,15 @@ public class HomeBO {
 		homeView.setPostList(postList);
 		
 		//팔로잉 수
-		int following = followBO.getFollowCountByFollowerUserIdOrFollowedUserId(homeUser.getId(), null);
+		int following = followBO.getFollowCountByFollowerUserIdOrFolloweeUserId(homeUser.getId(), null);
 		homeView.setFollowingCount(following);
 				
 		//팔로워 수 
-		int follower = followBO.getFollowCountByFollowerUserIdOrFollowedUserId(null , homeUser.getId());
+		int follower = followBO.getFollowCountByFollowerUserIdOrFolloweeUserId(null , homeUser.getId());
 		homeView.setFollowerCount(follower);
 		
 		//내가 팔로우 했는지.
-		int followed = followBO.getFollowCountByFollowerUserIdOrFollowedUserId(userId, homeUser.getId());
+		int followed = followBO.getFollowCountByFollowerUserIdOrFolloweeUserId(userId, homeUser.getId());
 		if (followed > 0) {
 			homeView.setFollowOrNot(true);
 		} else if (followed == 0){

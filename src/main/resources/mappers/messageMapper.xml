@@ -6,23 +6,26 @@
  		INSERT INTO
  			`message`
  		(
- 			`userIdSender`
+ 			`chatroomId`
+ 			,`userIdSender`
 			,`userIdReceiver`
 			,`content`
 			,`createdAt`
  		)
  		VALUES
  		(
-	 		#{userIdSender}
+ 			#{chatroomId}
+	 		,#{userIdSender}
 	 		,#{userIdReceiver}
 	 		,#{content}
 	 		, NOW()
  		)
  	</insert>
- 	<!--  보낸 메세지. 받은 메세지 모두 가져와야 한다. -->
- 	 <select id="selectMessageListBySenderIdAndReceiverId" parameterType="map" resultType="com.sns.message.model.Message">
+ 	<!--  보낸 메세지. 받은 메세지 모두 가져와야 한다. ==> 채팅방 번호 지정으로 검색이 더 쉬워졌다. -->
+ 	 <select id="selectMessageListByChatroomId" parameterType="int" resultType="com.sns.message.model.Message">
  		SELECT
  			`id`
+ 			,`chatroomId`
  			,`userIdSender`
 			,`userIdReceiver`
 			,`content`
@@ -30,11 +33,7 @@
 		FROM
 			`message`
 		WHERE
-			(`userIdSender` = #{userIdSender}
-			AND `userIdReceiver` = #{userIdReceiver})
-			OR
-			(`userIdSender` = #{userIdReceiver}
-			AND `userIdReceiver` = #{userIdSender})
+			`chatroomId` = #{chatroomId}
 		ORDER BY
 			`id`
  	</select>

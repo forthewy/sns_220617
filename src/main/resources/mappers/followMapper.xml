@@ -7,14 +7,14 @@
  		INSERT INTO
  			`follow`
  		(
- 			`userId_follower`
-			,`userId_followed`
+ 			`followerUserId`
+			,`followeeUserId`
 			,`createdAt`
  		)
  		VALUES
  		(
  			#{followerUserId}
- 			,#{followedUserId}
+ 			,#{followeeUserId}
  			,NOW()
  		)
  	</insert>
@@ -22,48 +22,40 @@
  		DELETE FROM
  			`follow`
  		WHERE
- 			`userId_follower` = #{followerUserId}
+ 			`followerUserId` = #{followerUserId}
  			AND
- 			`userId_followed` = #{followedUserId}
+ 			`followeeUserId` = #{followeeUserId}
  	</delete>
- 	<select id="selectFollowCountByFollowerUserIdOrFollowedUserId" parameterType="map" resultType="int">
+ 	<select id="selectFollowCountByFollowerUserIdOrFolloweeUserId" parameterType="map" resultType="int">
  		SELECT
  			COUNT(*)
  		FROM
  			`follow`
  		<choose>
-	 		<when test="followerUserId != null and followedUserId != null"> <!--  팔로우 여부 확인 -->
-	 		WHERE `userId_follower` = #{followerUserId}
-	 			AND `userId_followed` = #{followedUserId}
+	 		<when test="followerUserId != null and followeeUserId != null"> <!--  팔로우 여부 확인 -->
+	 		WHERE `followerUserId` = #{followerUserId}
+	 			AND `followeeUserId` = #{followeeUserId}
 	 		</when>
-	 		<when test="followedUserId != null"> <!-- 홈유저를 팔로우 한 사람을 찾아야할때 -->
-	 		WHERE `userId_followed` = #{followedUserId}
+	 		<when test="followeeUserId != null"> <!-- 홈유저를 팔로우 한 사람을 찾아야할때 -->
+	 		WHERE `followeeUserId` = #{followeeUserId}
 	 		</when>
 	 		<when test="followerUserId != null"> <!--  홈유저가 팔로우한 사람을 찾을때 -->
-		 	 WHERE `userId_follower` = #{followerUserId}
+		 	 WHERE `followerUserId` = #{followerUserId}
 		 	</when>
  		</choose>
  	</select>
- 	<select id="selectFollowUserIdListByFollowedUserId" parameterType="Integer" resultType="int">
- 		SELECT
- 			`userId_follower`
- 		FROM
- 			`follow`
- 		WHERE
- 			`userId_follower` = #{followedUserId}
- 	</select>
  	<select id="selectFolloweeUserIdByFollowerUserId" parameterType="int" resultType="int">
  		SELECT
- 			`userId_followed`
+ 			`followeeUserId`
  		FROM
  			`follow`
-		WHERE `userId_follower` = #{followerUserId}
+		WHERE `followerUserId` = #{followerUserId}
  	</select>
- 	<select id="selectFollowerUserIdByFollowerUserId" parameterType="int" resultType="int">
+ 	<select id="selectFollowerUserIdByFolloweeUserId" parameterType="int" resultType="int">
  		SELECT
- 			`userId_follower`
+ 			`followerUserId`
  		FROM
  			`follow`
-		WHERE `userId_followed` = #{followedUserId}
+		WHERE `followeeUserId` = #{followeeUserId}
  	</select>
  </mapper>

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sns.chatroom.bo.ChatroomBO;
 import com.sns.message.dao.MessageDAO;
 import com.sns.message.model.Message;
 import com.sns.user.bo.UserBO;
@@ -20,15 +21,21 @@ public class MessageBO {
 	@Autowired
 	private UserBO userBO;
 	
-	// 메세지 보내기
+	@Autowired
+	private ChatroomBO chatroomBO;
+	
+	// 메세지 보내기. 채팅방 조회 후 맞는 곳에 보내준다.
 	public int addMessage(int userIdSender, int userIdReceiver, String content) {
-		return messageDAO.insertMessage(userIdSender, userIdReceiver, content);
+		int chatroomId = chatroomBO.getChatroomId(userIdSender, userIdReceiver);
+		
+		return messageDAO.insertMessage(chatroomId, userIdSender, userIdReceiver, content);
 	}
 	
-	// 1명과의 메세지 리스트
-	public List<Message> getMessageListBySenderIdAndReceiverId(int userIdSender, int userIdReceiver){
+	// 1명과의 메세지 리스트 채팅방 번호로 조회하는 방식으로 수정
+	public List<Message> getMessageListByChatroomId(int userIdSender, int userIdReceiver){
+		int chatroomId = chatroomBO.getChatroomId(userIdSender, userIdReceiver);
 		
-		return messageDAO.selectMessageListBySenderIdAndReceiverId(userIdSender, userIdReceiver);
+		return messageDAO.selectMessageListByChatroomId(chatroomId);
 	}
 	
 	// 한 유저가 메세지를 주고 받은 사람들Id 리스트

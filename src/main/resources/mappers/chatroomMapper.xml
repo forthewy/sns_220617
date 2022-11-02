@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.sns.chatroom.dao.ChatroomDAO">
+ <select id="selectChatroomId" parameterType="map" resultType="Integer">
+ 	SELECT
+ 		`id`
+ 	FROM
+ 		`chatroom`
+ 	WHERE
+ 		(`senderId` = #{senderId} AND `receiverId` = #{receiverId})
+ 		OR 
+ 		(`senderId` = #{receiverId} AND `receiverId` = #{senderId})
+ </select>
+ <insert id="insertChatroom">
+ 	INSERT INTO
+ 		`chatroom`
+ 	(
+		`senderId`
+		,`receiverId`
+		,`createdAt`
+ 	)
+ 	VALUES
+ 	(
+	 	#{senderId}
+	 	,#{receiverId}
+	 	,NOW()
+ 	)
+ </insert>
+ <select id="selectChatroomIdListByUserId" parameterType="int" resultType="Integer">
+	SELECT
+ 		`id`
+ 	FROM
+ 		`chatroom
+ 	WHERE
+ 		`senderId` = #{userId}
+ 		OR
+ 		`receiverId` = #{userId}
+ </select>
+ <select id="" parameterType="int" resultType="com.sns.chatroom.model.Chatroom">
+ 	SELECT
+ 		`id`
+ 		,`senderId`
+		,`receiverId`
+		,`createdAt`
+	FROM
+		`chatroom`
+	WHERE
+		`id` = #{chatroomId}
+ </select>
+ </mapper>

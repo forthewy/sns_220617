@@ -26,40 +26,40 @@ public class FollowBO {
 	private UserBO userBO;
 	
 	// 팔로우 토글
-	public void followToggle(int followerUserId, int followedUserId) {
-		int row = getFollowCountByFollowerUserIdOrFollowedUserId(followerUserId, followedUserId);
+	public void followToggle(int followerUserId, int followeeUserId) {
+		int row = getFollowCountByFollowerUserIdOrFolloweeUserId(followerUserId, followeeUserId);
 		
 		if (row > 0) {
-			int resultRow = deleteFollow(followerUserId, followedUserId);
+			int resultRow = deleteFollow(followerUserId, followeeUserId);
 			if (resultRow == 0) {
-				log.debug("[팔로우 취소 실패] 팔로우 취소에 실패하였습니다 followerUserId:{}, followedUserId:{}"
-						, followerUserId, followedUserId);
+				log.debug("[팔로우 취소 실패] 팔로우 취소에 실패하였습니다 followerUserId:{}, followeeUserId:{}"
+						, followerUserId, followeeUserId);
 			}
 			return;
 		}
 		
-		int resultRow = addFollow(followerUserId, followedUserId);
+		int resultRow = addFollow(followerUserId, followeeUserId);
 		if (resultRow == 0) {
-			log.debug("[팔로우 실패] 팔로우에 실패하였습니다 followerUserId:{}, followedUserId:{}"
-					, followerUserId, followedUserId);
+			log.debug("[팔로우 실패] 팔로우에 실패하였습니다 followerUserId:{}, followeeUserId:{}"
+					, followerUserId, followeeUserId);
 		}
 		return;
 	}
 	
 	
 	// 토글로 변경
-	public int addFollow(int followerUserId, int followedUserId) {
-		return followDAO.insertFollow(followerUserId, followedUserId);
+	public int addFollow(int followerUserId, int followeeUserId) {
+		return followDAO.insertFollow(followerUserId, followeeUserId);
 	}
 	
-	public int deleteFollow(int followerUserId, int followedUserId) {
-		return followDAO.deleteFollow(followerUserId, followedUserId);
+	public int deleteFollow(int followerUserId, int followeeUserId) {
+		return followDAO.deleteFollow(followerUserId, followeeUserId);
 	}
 	
 	// 팔로워 혹은 팔로잉 수 확인
-	public int getFollowCountByFollowerUserIdOrFollowedUserId(Integer followerUserId,
-			Integer followedUserId) {
-		return followDAO.selectFollowCountByFollowerUserIdOrFollowedUserId(followerUserId, followedUserId);
+	public int getFollowCountByFollowerUserIdOrFolloweeUserId(Integer followerUserId,
+			Integer followeeUserId) {
+		return followDAO.selectFollowCountByFollowerUserIdOrFolloweeUserId(followerUserId, followeeUserId);
 	}
 	
 	// 팔로이id 조회
@@ -68,18 +68,18 @@ public class FollowBO {
 	}
 	
 	// 팔로워id 조회
-	public List<Integer> getFollowerIdByFollowUserId(Integer followedUserId) {
-		return followDAO.selectFollowerUserIdByFollowerUserId(followedUserId);
+	public List<Integer> getFollowerIdByFollowUserId(Integer followeeUserId) {
+		return followDAO.selectFollowerUserIdByFolloweeUserId(followeeUserId);
 	}
 	
 	
 	// 팔로워 혹은 팔로이 조회 null 값 아닌 쪽으로 id 목록 만들기
-	public List<FollowUser> getFollowUserByUserId(Integer followerId, Integer followedUserId) {
+	public List<FollowUser> getFollowUserByUserId(Integer followerId, Integer followeeUserId) {
 		
 		List<Integer> followUserIdList = new ArrayList<>();
 		
 		if (followerId == null) {
-			followUserIdList = getFolloweeIdByFollowUserId(followedUserId);
+			followUserIdList = getFolloweeIdByFollowUserId(followeeUserId);
 		} else {
 			followUserIdList = getFollowerIdByFollowUserId(followerId);
 		}

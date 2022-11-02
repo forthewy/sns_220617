@@ -80,7 +80,7 @@ section {
 }
 .message-history {
 	height : 430px;
-	width: 757px;
+	width: 100%;
 	overflow:auto;
 }
 .messageCard {

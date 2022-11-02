@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Message {
 	private int id;
+	private int chatroomId;
 	private int userIdSender;
 	private int userIdReceiver;
 	private String content;
@@ -13,6 +14,12 @@ public class Message {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getChatroomId() {
+		return chatroomId;
+	}
+	public void setChatroomId(int chatroomId) {
+		this.chatroomId = chatroomId;
 	}
 	public int getUserIdSender() {
 		return userIdSender;
