@@ -49,7 +49,7 @@ public class HomeBO {
 		homeView.setFollowerCount(follower);
 		
 		//내가 팔로우 했는지.
-		int followed = followBO.getFollowCountByFollowerUserIdOrFollowedUserId(homeUser.getId(), userId);
+		int followed = followBO.getFollowCountByFollowerUserIdOrFollowedUserId(userId, homeUser.getId());
 		if (followed > 0) {
 			homeView.setFollowOrNot(true);
 		} else if (followed == 0){

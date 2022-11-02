@@ -66,6 +66,11 @@ section {
 	border-radius: 70%;
 	overflow:hidden;
 }
+.followUserImg {
+	height: 50px;
+	border-radius: 70%;
+	overflow:hidden;
+}
 #homePosts{
 	min-height: 500px;
 	width: 757px;

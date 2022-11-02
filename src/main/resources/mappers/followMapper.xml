@@ -32,7 +32,7 @@
  		FROM
  			`follow`
  		<choose>
-	 		<when test="followerUserId != null and followedUserId != null">
+	 		<when test="followerUserId != null and followedUserId != null"> <!--  팔로우 여부 확인 -->
 	 		WHERE `userId_follower` = #{followerUserId}
 	 			AND `userId_followed` = #{followedUserId}
 	 		</when>

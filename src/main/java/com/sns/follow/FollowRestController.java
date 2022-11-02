@@ -34,7 +34,7 @@ public class FollowRestController {
 			return result;
 		}
 		
-		followBO.followToggle(homeUserId, userId);
+		followBO.followToggle(userId, homeUserId);
 		
 		result.put("code", 300);
 		result.put("result", "성공");

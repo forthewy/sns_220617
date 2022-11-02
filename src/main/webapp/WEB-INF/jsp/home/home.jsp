@@ -10,13 +10,13 @@
 				<h1 class="ml-5">${home.user.loginId}</h1>
 				<div class="ml-5 d-flex">
 					<div class="mr-2">
-						<a href="#" data-toggle="modal" data-target="#followerModal">
-							팔로잉 ${home.followerCount}
+						<a href="#" data-toggle="modal" data-target="#followeeModal">
+							팔로잉 ${home.followingCount}
 						</a>
 					</div>
 					<div>	
-						<a href="#" data-toggle="modal" data-target="#followeeModal">
-							팔로워 ${home.followingCount} <%-- 이거 왜 지금 반대로 나오는 건지..? --%>
+						<a href="#" data-toggle="modal" data-target="#followerModal">
+							팔로워  ${home.followerCount}
 						</a>
 					</div>	
 				</div>
@@ -55,8 +55,8 @@
     	<table class="table text-start">
 	      <c:forEach items="${home.followerList}" var="follower"> 
 			<tr>
-				<td class="col-1"><img src="${follower.profileImgPath}" width="60px" onerror="this.src='/static/img/stargram.png'"></td>
-				<td>${follower.loginId}</td>
+				<td class="col-1"><img src="${follower.profileImgPath}" width="60px" class="followUserImg" onerror="this.src='/static/img/stargram.png'"></td>
+				<td class="pt-4">${follower.loginId}</td>
 			</tr>
 	      </c:forEach>
     	</table>
@@ -73,8 +73,8 @@
     	<table class="table text-start">
 	      <c:forEach items="${home.followeeList}" var="followee"> 
 			<tr>
-				<td class="col-1"><img src="${followee.profileImgPath}" width="60px" onerror="this.src='/static/img/stargram.png'"></td>
-				<td>${followee.loginId}</td>
+				<td class="col-1"><img src="${followee.profileImgPath}" class="followUserImg" width="60px" onerror="this.src='/static/img/stargram.png'"></td>
+				<td class="pt-4">${followee.loginId}</td>
 			</tr>
 	      </c:forEach>
     	</table>
